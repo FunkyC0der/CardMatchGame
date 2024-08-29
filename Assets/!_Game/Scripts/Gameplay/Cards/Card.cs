@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CardMatchGame.Gameplay.Cards
@@ -28,9 +29,15 @@ namespace CardMatchGame.Gameplay.Cards
       get => InteractionCollider.enabled;
       set => InteractionCollider.enabled = value;
     }
-    
+
     private void Awake() => 
-      FrontRenderer.sprite = Desc.FrontSprite;
+      SetDesc(Desc);
+
+    public void SetDesc(CardDesc desc)
+    {
+      Desc = desc;
+      FrontRenderer.sprite = desc.FrontSprite;
+    }
 
     public void Flip() => 
       IsFrontSideVisible = !IsFrontSideVisible;
