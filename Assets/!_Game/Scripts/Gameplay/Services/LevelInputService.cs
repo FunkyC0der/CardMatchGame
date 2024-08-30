@@ -2,12 +2,12 @@ using System;
 using CardMatchGame.Gameplay.Cards;
 using UnityEngine;
 
-namespace CardMatchGame.Gameplay
+namespace CardMatchGame.Gameplay.Services
 {
-  public class InputService : MonoBehaviour
+  public class LevelInputService : MonoBehaviour
   {
     public Action<Card> OnCardSelected;
-    
+
     private void Update()
     {
       if (!Input.GetMouseButtonDown(0))

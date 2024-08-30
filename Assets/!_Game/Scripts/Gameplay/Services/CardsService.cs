@@ -1,25 +1,30 @@
 using System.Collections.Generic;
 using CardMatchGame.Gameplay.Cards;
 using UnityEngine;
+using Zenject;
 
-namespace CardMatchGame.Gameplay
+namespace CardMatchGame.Gameplay.Services
 {
   public class CardsService : MonoBehaviour
   {
     public CardsBank CardsBank;
     public Card CardPrefab;
 
-    public GridService Grid;
+    private GridService m_grid;
 
     private readonly List<Card> m_cards = new();
     private List<CardDesc> m_cardDescs = new();
+
+    [Inject]
+    private void Construct(GridService grid) => 
+      m_grid = grid;
 
     [ContextMenu("FillGrid")]
     public void FillGrid()
     {
       ClearGrid();
 
-      int cardsCount = Grid.CellsCount;
+      int cardsCount = m_grid.CellsCount;
       m_cardDescs = CardsBank.SelectRandomCards(cardsCount / 2);
 
       foreach (CardDesc desc in m_cardDescs)
@@ -31,7 +36,7 @@ namespace CardMatchGame.Gameplay
       m_cards.Shuffle();
       
       for (int i = 0; i < m_cards.Count; ++i) 
-        m_cards[i].transform.position = Grid.CellCenterPosition(i);
+        m_cards[i].transform.position = m_grid.CellCenterPosition(i);
     }
 
     private void ClearGrid()

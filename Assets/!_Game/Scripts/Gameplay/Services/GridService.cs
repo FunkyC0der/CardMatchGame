@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace CardMatchGame.Gameplay
+namespace CardMatchGame.Gameplay.Services
 {
   public class GridService : MonoBehaviour
   {

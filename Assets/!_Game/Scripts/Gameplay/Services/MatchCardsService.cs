@@ -2,17 +2,22 @@ using System.Collections;
 using CardMatchGame.Gameplay.Cards;
 using PrimeTween;
 using UnityEngine;
+using Zenject;
 
-namespace CardMatchGame.Gameplay
+namespace CardMatchGame.Gameplay.Services
 {
   public class MatchCardsService : MonoBehaviour
   {
-    public InputService InputService;
+    private LevelInputService m_levelInput;
 
     private Card m_selectedCard;
 
-    private void Awake() => 
-      InputService.OnCardSelected += SelectCard;
+    [Inject]
+    private void Construct(LevelInputService levelInput)
+    {
+      m_levelInput = levelInput;
+      m_levelInput.OnCardSelected += SelectCard;
+    }
 
     private void SelectCard(Card card) => 
       StartCoroutine(!m_selectedCard ? StartMatchProcess(card) : EndMatchProcess(card));
@@ -22,15 +27,15 @@ namespace CardMatchGame.Gameplay
       m_selectedCard = card;
       m_selectedCard.Selectable = false;
 
-      InputService.enabled = false;
+      m_levelInput.enabled = false;
       yield return m_selectedCard.Animator.PlayFlipAnim().ToYieldInstruction();
-      InputService.enabled = true;
+      m_levelInput.enabled = true;
     }
 
     private IEnumerator EndMatchProcess(Card card)
     {
       card.Selectable = false;
-      InputService.enabled = false;
+      m_levelInput.enabled = false;
 
       yield return card.Animator.PlayFlipAnim().ToYieldInstruction();
 
@@ -55,7 +60,7 @@ namespace CardMatchGame.Gameplay
       }
 
       m_selectedCard = null;
-      InputService.enabled = true;
+      m_levelInput.enabled = true;
     }
   }
 }

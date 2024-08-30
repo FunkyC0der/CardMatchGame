@@ -1,6 +1,5 @@
 using PrimeTween;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CardMatchGame.Gameplay.Cards
 {
