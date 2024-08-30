@@ -1,5 +1,5 @@
-using CardMatchGame.Gameplay.Services;
 using CardMatchGame.Gameplay.UI.Utils;
+using CardMatchGame.Services;
 using UnityEngine;
 using Zenject;
 
@@ -9,13 +9,13 @@ namespace CardMatchGame.Gameplay.UI
   {
     public PrintfText Text;
 
-    private LevelProgress m_levelProgress;
+    private LevelsDataService m_levelsDataService;
 
     [Inject]
-    private void Construct(LevelProgress levelProgress) => 
-      m_levelProgress = levelProgress;
+    private void Construct(LevelsDataService levelsDataService) => 
+      m_levelsDataService = levelsDataService;
 
     private void Start() => 
-      Text.UpdateView(m_levelProgress.LevelIndex + 1);
+      Text.UpdateView(m_levelsDataService.LevelIndex + 1);
   }
 }

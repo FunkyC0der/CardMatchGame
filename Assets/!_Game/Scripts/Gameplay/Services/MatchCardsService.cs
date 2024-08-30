@@ -96,6 +96,9 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator MatchSuccessProcess()
     {
+      foreach (Card card in m_cardsToMatch) 
+        card.IsMatched = true;
+      
       yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
         .ToYieldInstruction();
         

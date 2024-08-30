@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardMatchGame.Gameplay.Cards
 {
@@ -12,6 +13,9 @@ namespace CardMatchGame.Gameplay.Cards
 
     public Collider2D InteractionCollider;
     public CardAnimator Animator;
+
+    [FormerlySerializedAs("IsCardMatched")]
+    public bool IsMatched;
 
     public bool IsFrontSideVisible
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using CardMatchGame.Data;
 using CardMatchGame.Gameplay.Utils;
-using PrimeTween;
+using CardMatchGame.Services;
 using UnityEngine;
 using Zenject;
 
@@ -12,9 +12,6 @@ namespace CardMatchGame.Gameplay.Services
   {
     public event Action OnGameOver;
 
-    public LevelsData LevelsData;
-    public int LevelIndex;
-
     [NonSerialized]
     public readonly Cooldown LevelTimer = new();
 
@@ -22,8 +19,9 @@ namespace CardMatchGame.Gameplay.Services
     private CardsService m_cardsService;
     private LevelInputService m_levelInput;
     private MatchCardsService m_matchCardsService;
+    private LevelsDataService m_levelsDataService;
 
-    private LevelData m_levelData;
+    private LevelData LevelData => m_levelsDataService.LevelData;
 
     private bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
 
@@ -31,22 +29,22 @@ namespace CardMatchGame.Gameplay.Services
     private void Construct(GridService grid,
       CardsService cardsService,
       LevelInputService levelInput,
-      MatchCardsService matchCardsService)
+      MatchCardsService matchCardsService,
+      LevelsDataService levelsDataService)
     {
       m_grid = grid;
       m_cardsService = cardsService;
       m_levelInput = levelInput;
       m_matchCardsService = matchCardsService;
+      m_levelsDataService = levelsDataService;
     }
 
-    public void Awake()
+    private void Awake()
     {
-      m_levelData = LevelsData.Levels[LevelIndex];
-
-      m_grid.SetSize(m_levelData.GridSize);
-      m_matchCardsService.Init(m_levelData.CardsCountToMatch, m_levelData.MatchesCountToWin);
-      m_cardsService.Init(m_levelData.CardsCountToMatch);
-      LevelTimer.Init(m_levelData.TimerDuration);
+      m_grid.SetSize(LevelData.GridSize);
+      m_matchCardsService.Init(LevelData.CardsCountToMatch, LevelData.MatchesCountToWin);
+      m_cardsService.Init(LevelData.CardsCountToMatch);
+      LevelTimer.Init(LevelData.TimerDuration);
     }
 
     private IEnumerator Start()
@@ -54,11 +52,10 @@ namespace CardMatchGame.Gameplay.Services
       yield return GameLoop();
     }
 
-    public Sequence ShowCardsHint()
+    public void Restart()
     {
-      return m_cardsService.FlipCardsToFront()
-        .ChainDelay(m_levelData.ShowCardsDuration)
-        .Chain(m_cardsService.FlipCards());
+      StopAllCoroutines();
+      StartCoroutine(GameLoop());
     }
 
     private IEnumerator GameLoop()
@@ -93,12 +90,12 @@ namespace CardMatchGame.Gameplay.Services
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
 
-      yield return m_cardsService.FlipCardsToBack()
+      yield return m_cardsService.FlipAllCardsToBack()
         .ToYieldInstruction();
       
       m_cardsService.Shuffle();
 
-      yield return ShowCardsHint()
+      yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
       
       m_levelInput.enabled = true;

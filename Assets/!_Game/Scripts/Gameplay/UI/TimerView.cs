@@ -33,6 +33,9 @@ namespace CardMatchGame.Gameplay.UI
       
       if(m_levelProgress.LevelTimer.TimeLeft < EndTimeAnimThreshold && !m_endTimeAnim.isAlive)
         m_endTimeAnim = Tween.Color(Text, EndTimeAnimSettings);
+      
+      if(m_levelProgress.LevelTimer.TimeLeft > EndTimeAnimThreshold && m_endTimeAnim.isAlive)
+        m_endTimeAnim.Stop();
     }
 
     private void StopTimer()

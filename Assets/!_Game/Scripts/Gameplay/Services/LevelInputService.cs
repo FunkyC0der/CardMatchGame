@@ -6,7 +6,14 @@ namespace CardMatchGame.Gameplay.Services
 {
   public class LevelInputService : MonoBehaviour
   {
+    public event Action<bool> OnEnabledChanged;
     public Action<Card> OnCardSelected;
+
+    private void OnEnable() => 
+      OnEnabledChanged?.Invoke(true);
+
+    private void OnDisable() => 
+      OnEnabledChanged?.Invoke(false);
 
     private void Update()
     {
