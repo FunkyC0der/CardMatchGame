@@ -1,5 +1,6 @@
 using PrimeTween;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CardMatchGame.Gameplay.Cards
 {
@@ -7,16 +8,15 @@ namespace CardMatchGame.Gameplay.Cards
   {
     public Card Card;
     
-    public TweenSettings<Vector3> HalfFlipSettings;
+    public TweenSettings<Vector3> FlipToFrontSideSettings;
     public ShakeSettings ShakeSettings;
     public ShakeSettings PunchSettings;
 
     public Sequence PlayFlipAnim()
     {
       return Sequence.Create()
-        .Chain(Tween.Rotation(transform, HalfFlipSettings))
-        .ChainCallback(Card.Flip)
-        .Chain(Tween.Rotation(transform, HalfFlipSettings.WithDirection(false)));
+        .Chain(Tween.Rotation(transform, FlipToFrontSideSettings.WithDirection(!Card.IsFrontSide)))
+        .ChainCallback(Card.Flip);
     }
 
     public Tween PlayMatchSuccessAnim() =>

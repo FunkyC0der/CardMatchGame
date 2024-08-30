@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 988189022414169863}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3241854912972819074}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &5165151883503165032
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5491615564102234802
 Transform:
   m_ObjectHideFlags: 0
@@ -109,13 +109,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4008514054797629002}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3241854912972819074}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &4764188357560758238
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ Transform:
   m_GameObject: {fileID: 5313082429744316633}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.86, y: 1.51, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -218,9 +218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Desc: {fileID: 11400000, guid: 505f160f196de4b258a7d25711e1135c, type: 2}
   FrontRenderer: {fileID: 4764188357560758238}
-  BackRenderer: {fileID: 5165151883503165032}
   InteractionCollider: {fileID: 7619369439337784094}
   Animator: {fileID: 1079165756861391182}
+  IsMatched: 0
+  IsFrontSide: 0
 --- !u!114 &1079165756861391182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,12 +235,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Card: {fileID: 1357702402593889519}
-  HalfFlipSettings:
+  FlipToFrontSideSettings:
     startFromCurrent: 0
     startValue: {x: 0, y: 0, z: 0}
-    endValue: {x: 0, y: 90, z: 0}
+    endValue: {x: 0, y: 180, z: 0}
     settings:
-      duration: 0.25
+      duration: 0.5
       ease: 0
       customEase:
         serializedVersion: 2

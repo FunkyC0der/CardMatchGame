@@ -53,7 +53,7 @@ namespace CardMatchGame.Gameplay.Services
     public Sequence FlipAllCardsToBack()
     {
       return m_cards
-        .Where(card => card.IsFrontSideVisible)
+        .Where(card => card.IsFrontSide)
         .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
 
@@ -65,7 +65,7 @@ namespace CardMatchGame.Gameplay.Services
     private Sequence FlipCardsToFront()
     {
       return m_cards
-        .Where(card => !card.IsFrontSideVisible)
+        .Where(card => !card.IsFrontSide)
         .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
 

@@ -1,31 +1,17 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CardMatchGame.Gameplay.Cards
 {
-  [RequireComponent(typeof(Collider2D))]
   public class Card : MonoBehaviour
   {
     public CardDesc Desc;
 
     public SpriteRenderer FrontRenderer;
-    public SpriteRenderer BackRenderer;
-
     public Collider2D InteractionCollider;
     public CardAnimator Animator;
 
-    [FormerlySerializedAs("IsCardMatched")]
     public bool IsMatched;
-
-    public bool IsFrontSideVisible
-    {
-      get => FrontRenderer.gameObject.activeSelf;
-      set
-      {
-        FrontRenderer.gameObject.SetActive(value);
-        BackRenderer.gameObject.SetActive(!value);
-      }
-    }
+    public bool IsFrontSide;
     
     public bool Selectable
     {
@@ -43,6 +29,6 @@ namespace CardMatchGame.Gameplay.Cards
     }
 
     public void Flip() => 
-      IsFrontSideVisible = !IsFrontSideVisible;
+      IsFrontSide = !IsFrontSide;
   }
 }
