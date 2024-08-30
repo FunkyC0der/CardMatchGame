@@ -6,26 +6,40 @@ namespace CardMatchGame.Gameplay.Utils
   [Serializable]
   public class Cooldown
   {
+    public event Action OnReady; 
+    
     public float Duration;
 
-    private float m_endTime;
-    private float m_pausedTimeLeft;
+    private float m_timeElapsed;
+    
+    public float TimeLeft => Duration - m_timeElapsed;
+    public bool IsReady => !IsTicking;
+    public bool IsTicking => TimeLeft > 0;
 
-    public float TimeLeft => IsPaused ? m_pausedTimeLeft : (m_endTime - Time.time);
-    public bool IsTicking => IsPaused || m_endTime > Time.time;
-    public bool IsDone => Time.time > m_endTime;
-    public bool IsPaused => m_pausedTimeLeft > 0;
-
-    public void Activate() =>
-      m_endTime = Time.time + Duration;
-
-    public void Pause() =>
-      m_pausedTimeLeft = TimeLeft;
-
-    public void Resume()
+    public void Init(float duration)
     {
-      m_endTime = Time.time + m_pausedTimeLeft;
-      m_pausedTimeLeft = 0;
+      Duration = duration;
+      m_timeElapsed = Duration;
+    }
+
+    public void Activate() => 
+      m_timeElapsed = 0;
+
+    public void Stop() =>
+      m_timeElapsed = Duration;
+
+    public void Update()
+    {
+      if (IsReady)
+        return;
+      
+      m_timeElapsed += Time.deltaTime;
+
+      if (m_timeElapsed > Duration)
+      {
+        m_timeElapsed = Duration;
+        OnReady?.Invoke();
+      }
     }
   }
 }

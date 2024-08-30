@@ -26,7 +26,7 @@ namespace CardMatchGame.Gameplay.UI
 
     private void Update()
     {
-      if (m_levelProgress.LevelTimer.IsDone)
+      if (m_levelProgress.LevelTimer.IsReady)
         return;
       
       Text.text = m_levelProgress.LevelTimer.TimeLeft.ToMinutesAndSeconds();
