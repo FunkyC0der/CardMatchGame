@@ -38,8 +38,7 @@ namespace CardMatchGame.Gameplay.Services
     public void Shuffle()
     {
       m_cards.Shuffle();
-
-      ResetCardsMatchedState();
+      ResetCardsState();
       UpdateCardsPosition();
     }
 
@@ -69,10 +68,13 @@ namespace CardMatchGame.Gameplay.Services
         .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
 
-    private void ResetCardsMatchedState()
+    private void ResetCardsState()
     {
-      foreach (Card card in m_cards) 
+      foreach (Card card in m_cards)
+      {
+        card.Selectable = true;
         card.IsMatched = false;
+      }
     }
 
     private void UpdateCardsPosition()
