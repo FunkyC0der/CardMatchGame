@@ -17,8 +17,6 @@ namespace CardMatchGame.Gameplay.UI
     private void Construct(LevelInputService levelInput, CardsService cardsService)
     {
       m_levelInput = levelInput;
-      m_levelInput.OnEnabledChanged += value => Button.interactable = value; 
-      
       m_cardsService = cardsService;
       
       Button.onClick.AddListener(ShowCards);

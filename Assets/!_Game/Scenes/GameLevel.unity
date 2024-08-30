@@ -1228,6 +1228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1638265378}
   - component: {fileID: 1638265379}
+  - component: {fileID: 1638265380}
   m_Layer: 5
   m_Name: Controls
   m_TagString: Untagged
@@ -1282,6 +1283,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1638265380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638265377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a68c8727f449a6bddf44ea90176db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Buttons:
+  - {fileID: 961844417}
+  - {fileID: 977299406}
 --- !u!1 &1807733198
 GameObject:
   m_ObjectHideFlags: 0

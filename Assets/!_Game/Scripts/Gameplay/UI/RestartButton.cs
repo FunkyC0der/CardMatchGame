@@ -9,15 +9,8 @@ namespace CardMatchGame.Gameplay.UI
   {
     public Button Button;
 
-    private LevelInputService m_levelInput;
-
     [Inject]
-    private void Construct(LevelInputService levelInput, LevelProgress levelProgress)
-    {
-      m_levelInput = levelInput;
-      m_levelInput.OnEnabledChanged += value => Button.interactable = value; 
-      
+    private void Construct(LevelProgress levelProgress) => 
       Button.onClick.AddListener(levelProgress.Restart);
-    }
   }
 }
