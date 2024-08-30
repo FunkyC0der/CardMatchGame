@@ -10,6 +10,7 @@ namespace CardMatchGame.Gameplay.Services
 {
   public class LevelProgress : MonoBehaviour
   {
+    public event Action OnGameStart;
     public event Action OnGameOver;
 
     [NonSerialized]
@@ -21,9 +22,9 @@ namespace CardMatchGame.Gameplay.Services
     private MatchCardsService m_matchCardsService;
     private LevelsDataService m_levelsDataService;
 
+    public bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
     private LevelData LevelData => m_levelsDataService.LevelData;
 
-    private bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
 
     [Inject]
     private void Construct(GridService grid,
@@ -86,6 +87,8 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator StartGame()
     {
+      OnGameStart?.Invoke();
+      
       m_levelInput.enabled = false;
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
