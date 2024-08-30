@@ -14,6 +14,12 @@ namespace CardMatchGame.Gameplay.Services
     private void Awake() => 
       m_origin = ComputeOrigin();
 
+    public void SetSize(Vector2Int size)
+    {
+      Size = size;
+      m_origin = ComputeOrigin();
+    }
+
     public Vector3 CellCenterPosition(int index) => 
       CellCenterPosition(new Vector2Int(index % Size.x, index / Size.x));
 

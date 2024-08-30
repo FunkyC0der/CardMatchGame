@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PrimeTween;
 
 namespace CardMatchGame
 {
@@ -18,5 +19,23 @@ namespace CardMatchGame
     
     public static string ToMinutesAndSeconds(this float time) =>
       TimeSpan.FromSeconds(time).ToString(@"mm\:ss");
+
+    public static Sequence GroupTweens<T>(this IEnumerable<T> items, Func<T, Sequence> callback)
+    {
+      var sequence = Sequence.Create();
+      foreach (T item in items) 
+        sequence.Group(callback(item));
+
+      return sequence;
+    }
+    
+    public static Sequence GroupTweens<T>(this IEnumerable<T> items, Func<T, Tween> callback)
+    {
+      var sequence = Sequence.Create();
+      foreach (T item in items) 
+        sequence.Group(callback(item));
+
+      return sequence;
+    }
   }
 }

@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e48a5dcbe548d2991e63ba3e451262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardsToMatchCount: 2
 --- !u!1 &5249781573741663770
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +180,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelTimer:
-    TimeInSec: 0
+    Duration: 0
+    m_pausedTimeLeft: 0
+  LevelIndex: 0
+  LevelsData: {fileID: 11400000, guid: fc1c9b7e22ce44a61bfb805a9c1d785c, type: 2}
 --- !u!1 &8801211237447722661
 GameObject:
   m_ObjectHideFlags: 0

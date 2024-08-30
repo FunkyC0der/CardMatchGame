@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using CardMatchGame.Gameplay.Cards;
+using PrimeTween;
 using UnityEngine;
 using Zenject;
 
@@ -19,33 +21,34 @@ namespace CardMatchGame.Gameplay.Services
     private void Construct(GridService grid) => 
       m_grid = grid;
 
-    [ContextMenu("FillGrid")]
-    public void FillGrid()
+    public void Init(int cardsCountToMatch)
     {
-      ClearGrid();
-
       int cardsCount = m_grid.CellsCount;
-      m_cardDescs = CardsBank.SelectRandomCards(cardsCount / 2);
+      m_cardDescs = CardsBank.SelectRandomCards(cardsCount / cardsCountToMatch);
 
-      foreach (CardDesc desc in m_cardDescs)
-      {
-        m_cards.Add(CreateCard(desc));
-        m_cards.Add(CreateCard(desc));
-      }
+      CreateCards(cardsCountToMatch);
+      UpdateCardsPosition();
+    }
 
+    public void Shuffle()
+    {
       m_cards.Shuffle();
-      
+      UpdateCardsPosition();
+    }
+
+    private void UpdateCardsPosition()
+    {
       for (int i = 0; i < m_cards.Count; ++i) 
         m_cards[i].transform.position = m_grid.CellCenterPosition(i);
     }
 
-    private void ClearGrid()
+    private void CreateCards(int cardsCountToMatch)
     {
-      foreach (Card card in m_cards) 
-        Destroy(card.gameObject);
-      
-      m_cards.Clear();
-      m_cardDescs.Clear();
+      foreach (CardDesc desc in m_cardDescs)
+      {
+        for(int i = 0; i < cardsCountToMatch; ++i)
+          m_cards.Add(CreateCard(desc));
+      }
     }
 
     private Card CreateCard(CardDesc desc)
@@ -53,6 +56,23 @@ namespace CardMatchGame.Gameplay.Services
       Card card = Instantiate(CardPrefab, transform);
       card.SetDesc(desc);
       return card;
+    }
+
+    public Sequence FlipCardsToBack()
+    {
+      return m_cards
+        .Where(card => card.IsFrontSideVisible)
+        .GroupTweens(card => card.Animator.PlayFlipAnim());
+    }
+
+    public Sequence FlipCards() => 
+      m_cards.GroupTweens(card => card.Animator.PlayFlipAnim());
+
+    public Sequence FlipCardsToFront()
+    {
+      return m_cards
+        .Where(card => !card.IsFrontSideVisible)
+        .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
   }
 }

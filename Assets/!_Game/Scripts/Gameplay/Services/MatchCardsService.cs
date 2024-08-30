@@ -66,15 +66,11 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator MatchFailProcess()
     {
-      var sequence = Sequence.Create();
+      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim())
+        .ToYieldInstruction();
 
-      foreach (Card card in m_cardsToMatch) 
-        sequence.Group(card.Animator.PlayMatchFailedAnim());
-        
-      foreach (Card card in m_cardsToMatch) 
-        sequence.Group(card.Animator.PlayFlipAnim());
-
-      yield return sequence.ToYieldInstruction();
+      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipAnim())
+        .ToYieldInstruction();
 
       foreach (Card card in m_cardsToMatch)
         card.Selectable = true;
@@ -84,12 +80,8 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator MatchSuccessProcess()
     {
-      var sequence = Sequence.Create();
-
-      foreach (Card card in m_cardsToMatch) 
-        sequence.Group(card.Animator.PlayMatchSuccessAnim());
-
-      yield return sequence.ToYieldInstruction();
+      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
+        .ToYieldInstruction();
         
       m_cardsToMatch.Clear();
     }
