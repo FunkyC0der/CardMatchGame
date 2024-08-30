@@ -25,6 +25,8 @@ namespace CardMatchGame.Gameplay.Services
 
     private LevelData m_levelData;
 
+    private bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
+
     [Inject]
     private void Construct(GridService grid,
       CardsService cardsService,
@@ -35,6 +37,16 @@ namespace CardMatchGame.Gameplay.Services
       m_cardsService = cardsService;
       m_levelInput = levelInput;
       m_matchCardsService = matchCardsService;
+    }
+
+    public void Awake()
+    {
+      m_levelData = LevelsData.Levels[LevelIndex];
+
+      m_grid.SetSize(m_levelData.GridSize);
+      m_matchCardsService.Init(m_levelData.CardsCountToMatch, m_levelData.MatchesCountToWin);
+      m_cardsService.Init(m_levelData.CardsCountToMatch);
+      LevelTimer.Init(m_levelData.TimerDuration);
     }
 
     private IEnumerator Start()
@@ -51,25 +63,13 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator GameLoop()
     {
-      yield return EnterGameLoop();
+      yield return StartGame();
 
       yield return WaitGameOverCondition();
 
       ExitGameLoop();
     }
 
-    private IEnumerator EnterGameLoop()
-    {
-      m_levelData = LevelsData.Levels[LevelIndex];
-
-      m_grid.SetSize(m_levelData.GridSize);
-      m_matchCardsService.CardsToMatchCount = m_levelData.CardsCountToMatch;
-      m_cardsService.Init(m_levelData.CardsCountToMatch);
-      LevelTimer.Init(m_levelData.TimerDuration);
-
-      yield return StartGame();
-    }
-    
     private void ExitGameLoop()
     {
       m_levelInput.enabled = false;
@@ -80,7 +80,7 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator WaitGameOverCondition()
     {
-      while (LevelTimer.IsTicking)
+      while (LevelTimer.IsTicking && !IsLevelCompleted)
       {
         LevelTimer.Update();
         yield return null;
@@ -90,6 +90,7 @@ namespace CardMatchGame.Gameplay.Services
     private IEnumerator StartGame()
     {
       m_levelInput.enabled = false;
+      m_matchCardsService.StartGame();
       LevelTimer.Activate();
 
       yield return m_cardsService.FlipCardsToBack()

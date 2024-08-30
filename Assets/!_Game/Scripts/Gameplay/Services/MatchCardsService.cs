@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CardMatchGame.Gameplay.Cards;
-using PrimeTween;
 using UnityEngine;
 using Zenject;
 
@@ -10,13 +10,17 @@ namespace CardMatchGame.Gameplay.Services
 {
   public class MatchCardsService : MonoBehaviour
   {
-    [Min(2)]
-    public int CardsToMatchCount = 2;
-    
+    public event Action OnMatchesCountChanged;
+
+    private int m_cardsToMatchCount = 2;
+
+    public int MatchesCountToWin { get; private set; }
+    public int MatchesCount { get; private set; }
+
     private LevelInputService m_levelInput;
 
     private readonly List<Card> m_cardsToMatch = new();
-
+    
     [Inject]
     private void Construct(LevelInputService levelInput)
     {
@@ -24,6 +28,18 @@ namespace CardMatchGame.Gameplay.Services
       m_levelInput.OnCardSelected += SelectCard;
     }
 
+    public void Init(int cardsToMatchCount, int matchesCountToWin)
+    {
+      m_cardsToMatchCount = cardsToMatchCount;
+      MatchesCountToWin = matchesCountToWin;
+    }
+
+    public void StartGame()
+    {
+      MatchesCount = 0;
+      OnMatchesCountChanged?.Invoke();
+    }
+    
     public void StopMatchProcess()
     {
       if (m_cardsToMatch.Count == 0)
@@ -58,7 +74,7 @@ namespace CardMatchGame.Gameplay.Services
       
       if (!allCardsMatch)
         yield return MatchFailProcess();
-      else if (m_cardsToMatch.Count == CardsToMatchCount)
+      else if (m_cardsToMatch.Count == m_cardsToMatchCount)
         yield return MatchSuccessProcess();
 
       m_levelInput.enabled = true;
@@ -84,6 +100,9 @@ namespace CardMatchGame.Gameplay.Services
         .ToYieldInstruction();
         
       m_cardsToMatch.Clear();
+
+      ++MatchesCount;
+      OnMatchesCountChanged?.Invoke();
     }
   }
 }

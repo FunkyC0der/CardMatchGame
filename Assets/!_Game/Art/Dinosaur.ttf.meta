@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 064826aaaadcb4a709250e42a5668ad0
+guid: c101ad2603fc2405b85a2829fd8c512b
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - ARCO Typography
+  - Dinosaur
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

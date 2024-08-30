@@ -39,6 +39,6 @@ namespace CardMatchGame.Data
     public float TimerDuration = 10;
     
     public int CardsCount => GridSize.x * GridSize.y;
-    
+    public int MatchesCountToWin => CardsCount / CardsCountToMatch;
   }
 }
