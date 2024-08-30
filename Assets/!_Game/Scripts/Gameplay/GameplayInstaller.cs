@@ -9,6 +9,7 @@ namespace CardMatchGame.Gameplay
     public GridService GridService;
     public CardsService CardsService;
     public MatchCardsService MatchCardsService;
+    public LevelProgress LevelProgress;
     
     public override void InstallBindings()
     {
@@ -16,6 +17,7 @@ namespace CardMatchGame.Gameplay
       Container.BindInstance(GridService).AsSingle();
       Container.BindInstance(CardsService).AsSingle();
       Container.BindInstance(MatchCardsService).AsSingle();
+      Container.BindInstance(LevelProgress).AsSingle();
     }
   }
 }

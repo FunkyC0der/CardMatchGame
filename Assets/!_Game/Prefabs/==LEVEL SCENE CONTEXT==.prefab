@@ -178,6 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536143d3501a46178d6f783e70e35ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelTimer:
+    TimeInSec: 0
 --- !u!1 &8801211237447722661
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +266,7 @@ MonoBehaviour:
   GridService: {fileID: 3947645225673377126}
   CardsService: {fileID: 7421527754752981949}
   MatchCardsService: {fileID: 2819209547506636073}
+  LevelProgress: {fileID: 8961079594151992446}
 --- !u!1 &9085156656749080426
 GameObject:
   m_ObjectHideFlags: 0

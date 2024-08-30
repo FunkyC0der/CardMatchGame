@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using CardMatchGame.Gameplay.Cards;
 using PrimeTween;
 using UnityEngine;
@@ -8,9 +10,12 @@ namespace CardMatchGame.Gameplay.Services
 {
   public class MatchCardsService : MonoBehaviour
   {
+    [Min(2)]
+    public int CardsToMatchCount = 2;
+    
     private LevelInputService m_levelInput;
 
-    private Card m_selectedCard;
+    private readonly List<Card> m_cardsToMatch = new();
 
     [Inject]
     private void Construct(LevelInputService levelInput)
@@ -19,48 +24,74 @@ namespace CardMatchGame.Gameplay.Services
       m_levelInput.OnCardSelected += SelectCard;
     }
 
-    private void SelectCard(Card card) => 
-      StartCoroutine(!m_selectedCard ? StartMatchProcess(card) : EndMatchProcess(card));
-
-    private IEnumerator StartMatchProcess(Card card)
+    public void StopMatchProcess()
     {
-      m_selectedCard = card;
-      m_selectedCard.Selectable = false;
+      if (m_cardsToMatch.Count == 0)
+        return;
+      
+      StopAllCoroutines();
 
+      foreach (Card card in m_cardsToMatch) 
+        card.Animator.PlayFlipAnim();
+      
+      m_cardsToMatch.Clear();
+    }
+
+    private void SelectCard(Card card) => 
+      StartCoroutine(MatchProcess(card));
+
+    private IEnumerator MatchProcess(Card newCard)
+    {
+      m_cardsToMatch.Add(newCard);
+
+      newCard.Selectable = false;
       m_levelInput.enabled = false;
-      yield return m_selectedCard.Animator.PlayFlipAnim().ToYieldInstruction();
+      yield return newCard.Animator.PlayFlipAnim().ToYieldInstruction();
+
+      if (m_cardsToMatch.Count == 1)
+      {
+        m_levelInput.enabled = true;
+        yield break;
+      }
+
+      bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
+      
+      if (!allCardsMatch)
+        yield return MatchFailProcess();
+      else if (m_cardsToMatch.Count == CardsToMatchCount)
+        yield return MatchSuccessProcess();
+
       m_levelInput.enabled = true;
     }
 
-    private IEnumerator EndMatchProcess(Card card)
+    private IEnumerator MatchFailProcess()
     {
-      card.Selectable = false;
-      m_levelInput.enabled = false;
+      var sequence = Sequence.Create();
 
-      yield return card.Animator.PlayFlipAnim().ToYieldInstruction();
+      foreach (Card card in m_cardsToMatch) 
+        sequence.Group(card.Animator.PlayMatchFailedAnim());
+        
+      foreach (Card card in m_cardsToMatch) 
+        sequence.Group(card.Animator.PlayFlipAnim());
 
-      if (card.Desc == m_selectedCard.Desc)
-      {
-        yield return Sequence.Create()
-          .Chain(card.Animator.PlayMatchSuccessAnim())
-          .Group(m_selectedCard.Animator.PlayMatchSuccessAnim())
-          .ToYieldInstruction();
-      }
-      else 
-      {
-        yield return Sequence.Create()
-          .Chain(card.Animator.PlayMatchFailedAnim())
-          .Group(m_selectedCard.Animator.PlayMatchFailedAnim())
-          .Chain(card.Animator.PlayFlipAnim())
-          .Group(m_selectedCard.Animator.PlayFlipAnim())
-          .ToYieldInstruction();
+      yield return sequence.ToYieldInstruction();
 
+      foreach (Card card in m_cardsToMatch)
         card.Selectable = true;
-        m_selectedCard.Selectable = true;
-      }
+        
+      m_cardsToMatch.Clear();
+    }
 
-      m_selectedCard = null;
-      m_levelInput.enabled = true;
+    private IEnumerator MatchSuccessProcess()
+    {
+      var sequence = Sequence.Create();
+
+      foreach (Card card in m_cardsToMatch) 
+        sequence.Group(card.Animator.PlayMatchSuccessAnim());
+
+      yield return sequence.ToYieldInstruction();
+        
+      m_cardsToMatch.Clear();
     }
   }
 }
