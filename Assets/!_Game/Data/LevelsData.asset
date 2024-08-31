@@ -13,11 +13,27 @@ MonoBehaviour:
   m_Name: LevelsData
   m_EditorClassIdentifier: 
   Levels:
-  - GridSize: {x: 4, y: 4}
+  - GridSize: {x: 2, y: 2}
     CardsCountToMatch: 2
-    ShowCardsDuration: 2
-    TimerDuration: 30
-  - GridSize: {x: 4, y: 2}
+    ShowCardsDuration: 1
+    TimerDuration: 15
+  - GridSize: {x: 2, y: 3}
     CardsCountToMatch: 2
     ShowCardsDuration: 2
     TimerDuration: 15
+  - GridSize: {x: 4, y: 2}
+    CardsCountToMatch: 2
+    ShowCardsDuration: 2
+    TimerDuration: 20
+  - GridSize: {x: 2, y: 5}
+    CardsCountToMatch: 2
+    ShowCardsDuration: 2
+    TimerDuration: 20
+  - GridSize: {x: 4, y: 3}
+    CardsCountToMatch: 3
+    ShowCardsDuration: 3
+    TimerDuration: 30
+  - GridSize: {x: 4, y: 4}
+    CardsCountToMatch: 2
+    ShowCardsDuration: 3
+    TimerDuration: 30
