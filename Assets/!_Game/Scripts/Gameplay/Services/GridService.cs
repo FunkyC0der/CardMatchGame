@@ -1,22 +1,30 @@
+using System.Reflection;
+using CardMatchGame.Services.Levels;
 using UnityEngine;
+using Zenject;
 
 namespace CardMatchGame.Gameplay.Services
 {
-  public class GridService : MonoBehaviour
+  public class GridService : MonoBehaviour, IInitializable
   {
     public Vector2Int Size;
     public Vector2 CellSize;
 
+    private ILevelsService m_levelsService;
+    
     private Vector3 m_origin;
+
+    [Inject]
+    private void Construct(ILevelsService levelsService) =>
+      m_levelsService = levelsService;
 
     public int CellsCount => Size.x * Size.y;
 
-    private void Awake() => 
-      m_origin = ComputeOrigin();
-
-    public void SetSize(Vector2Int size)
+    public void Initialize()
     {
-      Size = size;
+      Debug.Log(MethodBase.GetCurrentMethod());
+
+      Size = m_levelsService.LevelData.GridSize;
       m_origin = ComputeOrigin();
     }
 

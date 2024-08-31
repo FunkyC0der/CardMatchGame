@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using CardMatchGame.Gameplay.Cards;
 using CardMatchGame.Gameplay.Services.Input;
+using CardMatchGame.Services.Levels;
 using UnityEngine;
 using Zenject;
 
 namespace CardMatchGame.Gameplay.Services
 {
-  public class MatchCardsService : MonoBehaviour
+  public class MatchCardsService : MonoBehaviour, IInitializable
   {
     public event Action OnMatchesCountChanged;
 
@@ -19,20 +20,23 @@ namespace CardMatchGame.Gameplay.Services
     public int MatchesCount { get; private set; }
 
     private ILevelInput m_levelInput;
+    private ILevelsService m_levelsService;
     
     private readonly List<Card> m_cardsToMatch = new();
     
     [Inject]
-    private void Construct(ILevelInput levelInput)
+    private void Construct(ILevelInput levelInput, ILevelsService levelsService)
     {
       m_levelInput = levelInput;
       levelInput.OnCardSelected += SelectCard;
+
+      m_levelsService = levelsService;
     }
 
-    public void Init(int cardsToMatchCount, int matchesCountToWin)
+    public void Initialize()
     {
-      m_cardsToMatchCount = cardsToMatchCount;
-      MatchesCountToWin = matchesCountToWin;
+      m_cardsToMatchCount = m_levelsService.LevelData.CardsCountToMatch;
+      MatchesCountToWin = m_levelsService.LevelData.MatchesCountToWin;
     }
 
     public void StartGame()
@@ -40,7 +44,7 @@ namespace CardMatchGame.Gameplay.Services
       MatchesCount = 0;
       OnMatchesCountChanged?.Invoke();
     }
-    
+
     public void StopMatchProcess()
     {
       if (m_cardsToMatch.Count == 0)

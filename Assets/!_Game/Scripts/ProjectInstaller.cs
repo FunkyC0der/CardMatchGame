@@ -1,15 +1,17 @@
-using CardMatchGame.Services;
+using CardMatchGame.Services.Levels;
 using Zenject;
 
 namespace CardMatchGame
 {
   public class ProjectInstaller : MonoInstaller
   {
-    public LevelsDataService LevelsDataService;
+    public LevelsService LevelsService;
 
     public override void InstallBindings()
     {
-      Container.BindInstance(LevelsDataService).AsSingle();
+      Container.Bind(typeof(ILevelsService), typeof(IInitializable))
+        .FromInstance(LevelsService)
+        .AsSingle();
     }
   }
 }

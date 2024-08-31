@@ -2,34 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CardMatchGame.Gameplay.Cards;
-using CardMatchGame.Services;
+using CardMatchGame.Services.Levels;
 using PrimeTween;
 using UnityEngine;
 using Zenject;
 
 namespace CardMatchGame.Gameplay.Services
 {
-  public class CardsService : MonoBehaviour
+  public class CardsService : MonoBehaviour, IInitializable
   {
     public CardsBank CardsBank;
     public Card CardPrefab;
 
     private GridService m_grid;
-    private LevelsDataService m_levelsDataService;
+    private ILevelsService m_levelsService;
 
     private readonly List<Card> m_cards = new();
     private List<CardDesc> m_cardDescs = new();
     
     [Inject]
-    private void Construct(GridService grid, LevelsDataService levelsDataService)
+    private void Construct(GridService grid, ILevelsService levelsService)
     {
       m_grid = grid;
-      m_levelsDataService = levelsDataService;
+      m_levelsService = levelsService;
     }
 
-    public void Init(int cardsCountToMatch)
+    public void Initialize()
     {
+      int cardsCountToMatch = m_levelsService.LevelData.CardsCountToMatch;
       int cardsCount = m_grid.CellsCount;
+      
       m_cardDescs = CardsBank.SelectRandomCards(cardsCount / cardsCountToMatch);
 
       CreateCards(cardsCountToMatch);
@@ -46,7 +48,7 @@ namespace CardMatchGame.Gameplay.Services
     public IEnumerator ShowCardsHint()
     {
       yield return FlipAllCardsToFront()
-        .ChainDelay(m_levelsDataService.LevelData.ShowCardsDuration)
+        .ChainDelay(m_levelsService.LevelData.ShowCardsDuration)
         .ToYieldInstruction();
 
       yield return m_cards

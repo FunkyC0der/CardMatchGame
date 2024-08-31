@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
-using CardMatchGame.Data;
 using CardMatchGame.Gameplay.Services.Input;
 using CardMatchGame.Gameplay.Utils;
-using CardMatchGame.Services;
+using CardMatchGame.Services.Levels;
 using UnityEngine;
 using Zenject;
 
 namespace CardMatchGame.Gameplay.Services
 {
-  public class LevelProgress : MonoBehaviour
+  public class LevelProgress : MonoBehaviour, IInitializable
   {
     public event Action OnGameStart;
     public event Action OnGameOver;
@@ -21,33 +20,24 @@ namespace CardMatchGame.Gameplay.Services
     private CardsService m_cardsService;
     private ILevelInput m_levelInput;
     private MatchCardsService m_matchCardsService;
-    private LevelsDataService m_levelsDataService;
+    private ILevelsService m_levelsService;
 
     public bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
-    private LevelData LevelData => m_levelsDataService.LevelData;
-
 
     [Inject]
-    private void Construct(GridService grid,
-      CardsService cardsService,
+    private void Construct(CardsService cardsService,
       ILevelInput levelInput,
       MatchCardsService matchCardsService,
-      LevelsDataService levelsDataService)
+      ILevelsService levelsService)
     {
-      m_grid = grid;
       m_cardsService = cardsService;
       m_levelInput = levelInput;
       m_matchCardsService = matchCardsService;
-      m_levelsDataService = levelsDataService;
+      m_levelsService = levelsService;
     }
 
-    private void Awake()
-    {
-      m_grid.SetSize(LevelData.GridSize);
-      m_matchCardsService.Init(LevelData.CardsCountToMatch, LevelData.MatchesCountToWin);
-      m_cardsService.Init(LevelData.CardsCountToMatch);
-      LevelTimer.Init(LevelData.TimerDuration);
-    }
+    public void Initialize() => 
+      LevelTimer.Init(m_levelsService.LevelData.TimerDuration);
 
     private IEnumerator Start()
     {
