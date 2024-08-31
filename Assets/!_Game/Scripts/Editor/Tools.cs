@@ -12,8 +12,10 @@ namespace CardMatchGame.Editor
     {
       PlayerPrefs.DeleteAll();
       PlayerPrefs.Save();
-      
-      Directory.Delete(FileSaveLoadService.CreateSavesDirectoryPath(), true);
+
+      string savesFilePath = FileSaveLoadService.CreateSavesDirectoryPath();
+      if(Directory.Exists(savesFilePath))
+        Directory.Delete(FileSaveLoadService.CreateSavesDirectoryPath(), true);
     }
   }
 }
