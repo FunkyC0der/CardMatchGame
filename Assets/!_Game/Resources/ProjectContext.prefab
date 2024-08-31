@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7750dbf1d88417fa35ca9597c983641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProjectConfig: {fileID: 11400000, guid: 8a240bce8ad7e4299919be435cf5e6d2, type: 2}
   LevelsService: {fileID: 7106811994414705369}
 --- !u!1 &5246281325475102775
 GameObject:
