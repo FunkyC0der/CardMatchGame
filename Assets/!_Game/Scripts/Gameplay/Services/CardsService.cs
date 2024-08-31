@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CardMatchGame.Gameplay.Cards;
@@ -42,11 +43,14 @@ namespace CardMatchGame.Gameplay.Services
       UpdateCardsPosition();
     }
 
-    public Sequence ShowCardsHint()
+    public IEnumerator ShowCardsHint()
     {
-      return FlipCardsToFront()
+      yield return FlipCardsToFront()
         .ChainDelay(m_levelsDataService.LevelData.ShowCardsDuration)
-        .Chain(FlipNotMatchedCards());
+        .ToYieldInstruction();
+
+      yield return FlipNotMatchedCards()
+        .ToYieldInstruction();
     }
 
     public Sequence FlipAllCardsToBack()

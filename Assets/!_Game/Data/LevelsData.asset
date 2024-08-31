@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelsData
   m_EditorClassIdentifier: 
   Levels:
-  - GridSize: {x: 4, y: 2}
+  - GridSize: {x: 2, y: 1}
     CardsCountToMatch: 2
     ShowCardsDuration: 2
     TimerDuration: 30

@@ -1,5 +1,5 @@
+using System.Collections;
 using CardMatchGame.Gameplay.Services;
-using PrimeTween;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,15 +19,14 @@ namespace CardMatchGame.Gameplay.UI
       m_levelInput = levelInput;
       m_cardsService = cardsService;
       
-      Button.onClick.AddListener(ShowCards);
+      Button.onClick.AddListener(() => StartCoroutine(ShowCards()));
     }
 
-    private void ShowCards()
+    private IEnumerator ShowCards()
     {
-      Sequence.Create()
-        .ChainCallback(() => m_levelInput.enabled = false)
-        .Chain(m_cardsService.ShowCardsHint())
-        .ChainCallback(() => m_levelInput.enabled = true);
+      m_levelInput.enabled = false;
+      yield return m_cardsService.ShowCardsHint();
+      m_levelInput.enabled = true;
     }
   }
 }

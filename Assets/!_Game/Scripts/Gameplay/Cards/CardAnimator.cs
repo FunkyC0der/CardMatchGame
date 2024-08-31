@@ -1,13 +1,12 @@
 using PrimeTween;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CardMatchGame.Gameplay.Cards
 {
   public class CardAnimator : MonoBehaviour
   {
     public Card Card;
-    
+
     public TweenSettings<Vector3> FlipToFrontSideSettings;
     public ShakeSettings ShakeSettings;
     public ShakeSettings PunchSettings;
