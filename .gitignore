@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # Mac OS file
 **/.DS_Store
+
+# Game saves directory
+/GameSaves/
