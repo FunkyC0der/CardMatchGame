@@ -6,6 +6,7 @@ using CardMatchGame.Services.Progress;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace CardMatchGame.Gameplay.UI
@@ -16,7 +17,7 @@ namespace CardMatchGame.Gameplay.UI
     public TextMeshProUGUI LevelFailedText;
 
     public PrintfText TimeText;
-    public PrintfText BestTimeText;
+    public PrintfText NewTimeRecordText;
 
     public RectTransform AnimWindow;
     public TweenSettings<Vector2> ShowHideAnimSettings;
@@ -64,7 +65,7 @@ namespace CardMatchGame.Gameplay.UI
     {
       LevelCompletedText.gameObject.SetActive(false);
       LevelFailedText.gameObject.SetActive(false);
-      BestTimeText.gameObject.SetActive(false);
+      NewTimeRecordText.gameObject.SetActive(false);
       TimeText.gameObject.SetActive(false);
     }
 
@@ -72,30 +73,57 @@ namespace CardMatchGame.Gameplay.UI
     {
       LevelCompletedText.gameObject.SetActive(true);
         
-      CompletedLevelData completedLevelData = m_progressService.FindCompletedLevelData(m_levelsService.LevelIndex);
-      if (completedLevelData == null)
-      {
-        completedLevelData = new CompletedLevelData()
-        {
-          Index = m_levelsService.LevelIndex,
-          BestTime = m_levelProgress.LevelTimer.TimeElapsed
-        };
+      CompletedLevelData completedLevelData = FindCompletedLevelData() ?? AddNewCompletedLevelData();
 
-        m_progressService.AddCompletedLevelData(completedLevelData);
-      }
-      
-      if (completedLevelData.BestTime > m_levelProgress.LevelTimer.TimeElapsed)
+      if (IsNewTimeRecord(completedLevelData))
       {
-        BestTimeText.UpdateView(completedLevelData.BestTime.ToMinutesAndSeconds(), 
-          m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
-        
-        BestTimeText.gameObject.SetActive(true);
+        ShowNewTimeRecordText(completedLevelData);
+        UpdateNewTimeRecordData(completedLevelData);
       }
       else
       {
-        TimeText.UpdateView(m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
-        TimeText.gameObject.SetActive(true);
+        ShowTimeText();
       }
+    }
+
+    private CompletedLevelData FindCompletedLevelData() => 
+      m_progressService.FindCompletedLevelData(m_levelsService.LevelIndex);
+
+    private CompletedLevelData AddNewCompletedLevelData()
+    {
+      var completedLevelData = new CompletedLevelData()
+      {
+        Index = m_levelsService.LevelIndex,
+        BestTime = m_levelProgress.LevelTimer.TimeElapsed
+      };
+
+      m_progressService.AddCompletedLevelData(completedLevelData);
+      m_progressService.Save();
+      
+      return completedLevelData;
+    }
+
+    private bool IsNewTimeRecord(CompletedLevelData completedLevelData) => 
+      completedLevelData.BestTime > m_levelProgress.LevelTimer.TimeElapsed;
+
+    private void UpdateNewTimeRecordData(CompletedLevelData completedLevelData)
+    {
+      completedLevelData.BestTime = m_levelProgress.LevelTimer.TimeElapsed;
+      m_progressService.Save();
+    }
+
+    private void ShowNewTimeRecordText(CompletedLevelData completedLevelData)
+    {
+      NewTimeRecordText.UpdateView(completedLevelData.BestTime.ToMinutesAndSeconds(), 
+        m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
+
+      NewTimeRecordText.gameObject.SetActive(true);
+    }
+
+    private void ShowTimeText()
+    {
+      TimeText.UpdateView(m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
+      TimeText.gameObject.SetActive(true);
     }
   }
 }

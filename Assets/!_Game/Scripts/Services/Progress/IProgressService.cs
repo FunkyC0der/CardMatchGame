@@ -4,5 +4,7 @@ namespace CardMatchGame.Services.Progress
   {
     CompletedLevelData FindCompletedLevelData(int levelIndex);
     void AddCompletedLevelData(CompletedLevelData data);
+    void Save();
+    void Load();
   }
 }

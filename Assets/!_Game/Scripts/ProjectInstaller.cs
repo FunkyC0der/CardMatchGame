@@ -1,3 +1,4 @@
+using CardMatchGame.Services;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
@@ -17,6 +18,7 @@ namespace CardMatchGame
       BindSaveLoadService();
       BindProgressService();
       BindLevelsService();
+      BindBootService();
     }
 
     private void BindSerializer()
@@ -55,18 +57,17 @@ namespace CardMatchGame
       }
     }
 
-    private void BindProgressService()
-    {
+    private void BindProgressService() =>
       Container.Bind<IProgressService>()
         .To<ProgressService>()
         .AsSingle();
-    }
 
-    private void BindLevelsService()
-    {
+    private void BindLevelsService() =>
       Container.Bind(typeof(ILevelsService), typeof(IInitializable))
         .FromInstance(LevelsService)
         .AsSingle();
-    }
+
+    private void BindBootService() => 
+      Container.BindInterfacesTo<BootService>().AsSingle();
   }
 }

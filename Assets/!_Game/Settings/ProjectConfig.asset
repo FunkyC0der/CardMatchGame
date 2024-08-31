@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6388f4d0ba63460c989c666566637bc0, type: 3}
   m_Name: ProjectConfig
   m_EditorClassIdentifier: 
-  SerializerType: 0
-  SaveLoadType: 0
+  SerializerType: 1
+  SaveLoadType: 1
