@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CardMatchGame.Gameplay.Cards;
+using CardMatchGame.Gameplay.Services.Input;
 using UnityEngine;
 using Zenject;
 
@@ -17,15 +18,15 @@ namespace CardMatchGame.Gameplay.Services
     public int MatchesCountToWin { get; private set; }
     public int MatchesCount { get; private set; }
 
-    private LevelInputService m_levelInput;
-
+    private ILevelInput m_levelInput;
+    
     private readonly List<Card> m_cardsToMatch = new();
     
     [Inject]
-    private void Construct(LevelInputService levelInput)
+    private void Construct(ILevelInput levelInput)
     {
       m_levelInput = levelInput;
-      m_levelInput.OnCardSelected += SelectCard;
+      levelInput.OnCardSelected += SelectCard;
     }
 
     public void Init(int cardsToMatchCount, int matchesCountToWin)
@@ -59,25 +60,19 @@ namespace CardMatchGame.Gameplay.Services
     private IEnumerator MatchProcess(Card newCard)
     {
       m_cardsToMatch.Add(newCard);
-
       newCard.Selectable = false;
-      m_levelInput.enabled = false;
-      yield return newCard.Animator.PlayFlipAnim().ToYieldInstruction();
-
-      if (m_cardsToMatch.Count == 1)
-      {
-        m_levelInput.enabled = true;
-        yield break;
-      }
-
       bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
+      
+      m_levelInput.SetEnabled(false);
+      
+      yield return newCard.Animator.PlayFlipAnim().ToYieldInstruction();
       
       if (!allCardsMatch)
         yield return MatchFailProcess();
       else if (m_cardsToMatch.Count == m_cardsToMatchCount)
         yield return MatchSuccessProcess();
-
-      m_levelInput.enabled = true;
+      
+      m_levelInput.SetEnabled(true);
     }
 
     private IEnumerator MatchFailProcess()

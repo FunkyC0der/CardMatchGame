@@ -19,7 +19,7 @@ namespace CardMatchGame.Gameplay.Services
 
     private readonly List<Card> m_cards = new();
     private List<CardDesc> m_cardDescs = new();
-
+    
     [Inject]
     private void Construct(GridService grid, LevelsDataService levelsDataService)
     {
@@ -49,21 +49,17 @@ namespace CardMatchGame.Gameplay.Services
         .ChainDelay(m_levelsDataService.LevelData.ShowCardsDuration)
         .ToYieldInstruction();
 
-      yield return FlipNotMatchedCards()
+      yield return FlipCardsToBack(true)
         .ToYieldInstruction();
     }
 
-    public Sequence FlipAllCardsToBack()
+    public Sequence FlipCardsToBack(bool skipMatched = false)
     {
       return m_cards
+        .Where(card => skipMatched || card.IsFrontSide)
         .Where(card => card.IsFrontSide)
         .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
-
-    private Sequence FlipNotMatchedCards() => 
-      m_cards
-        .Where(card => !card.IsMatched)
-        .GroupTweens(card => card.Animator.PlayFlipAnim());
 
     private Sequence FlipCardsToFront()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using CardMatchGame.Gameplay.Services;
+using CardMatchGame.Gameplay.Services.Input;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,11 +11,11 @@ namespace CardMatchGame.Gameplay.UI
   {
     public Button Button;
 
-    private LevelInputService m_levelInput;
+    private ILevelInput m_levelInput;
     private CardsService m_cardsService;
 
     [Inject]
-    private void Construct(LevelInputService levelInput, CardsService cardsService)
+    private void Construct(ILevelInput levelInput, CardsService cardsService)
     {
       m_levelInput = levelInput;
       m_cardsService = cardsService;
@@ -24,9 +25,9 @@ namespace CardMatchGame.Gameplay.UI
 
     private IEnumerator ShowCards()
     {
-      m_levelInput.enabled = false;
+      m_levelInput.SetEnabled(false);
       yield return m_cardsService.ShowCardsHint();
-      m_levelInput.enabled = true;
+      m_levelInput.SetEnabled(true);
     }
   }
 }

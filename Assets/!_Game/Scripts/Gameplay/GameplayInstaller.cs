@@ -1,11 +1,13 @@
 using CardMatchGame.Gameplay.Services;
+using CardMatchGame.Gameplay.Services.Input;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace CardMatchGame.Gameplay
 {
   public class GameplayInstaller : MonoInstaller
   {
-    public LevelInputService LevelInputService;
+    public LevelInput levelInput;
     public GridService GridService;
     public CardsService CardsService;
     public MatchCardsService MatchCardsService;
@@ -13,7 +15,10 @@ namespace CardMatchGame.Gameplay
     
     public override void InstallBindings()
     {
-      Container.BindInstance(LevelInputService).AsSingle();
+      Container.Bind<ILevelInput>()
+        .FromInstance(levelInput)
+        .AsSingle();
+      
       Container.BindInstance(GridService).AsSingle();
       Container.BindInstance(CardsService).AsSingle();
       Container.BindInstance(MatchCardsService).AsSingle();

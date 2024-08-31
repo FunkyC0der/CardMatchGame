@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8863530034394268756}
   - component: {fileID: 40536831356177454}
   m_Layer: 0
-  m_Name: LevelInputService
+  m_Name: LevelInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e48a5dcbe548d2991e63ba3e451262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardsToMatchCount: 2
 --- !u!1 &5249781573741663770
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,11 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536143d3501a46178d6f783e70e35ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelTimer:
-    Duration: 0
-    m_pausedTimeLeft: 0
-  LevelIndex: 0
-  LevelsData: {fileID: 11400000, guid: fc1c9b7e22ce44a61bfb805a9c1d785c, type: 2}
 --- !u!1 &8801211237447722661
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebb7a0a6cac47be8c6dbe0d9e986bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelInputService: {fileID: 40536831356177454}
+  levelInput: {fileID: 40536831356177454}
   GridService: {fileID: 3947645225673377126}
   CardsService: {fileID: 7421527754752981949}
   MatchCardsService: {fileID: 2819209547506636073}

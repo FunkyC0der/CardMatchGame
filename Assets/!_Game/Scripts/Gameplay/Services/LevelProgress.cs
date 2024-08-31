@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CardMatchGame.Data;
+using CardMatchGame.Gameplay.Services.Input;
 using CardMatchGame.Gameplay.Utils;
 using CardMatchGame.Services;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace CardMatchGame.Gameplay.Services
 
     private GridService m_grid;
     private CardsService m_cardsService;
-    private LevelInputService m_levelInput;
+    private ILevelInput m_levelInput;
     private MatchCardsService m_matchCardsService;
     private LevelsDataService m_levelsDataService;
 
@@ -29,7 +30,7 @@ namespace CardMatchGame.Gameplay.Services
     [Inject]
     private void Construct(GridService grid,
       CardsService cardsService,
-      LevelInputService levelInput,
+      ILevelInput levelInput,
       MatchCardsService matchCardsService,
       LevelsDataService levelsDataService)
     {
@@ -56,6 +57,8 @@ namespace CardMatchGame.Gameplay.Services
     public void Restart()
     {
       StopAllCoroutines();
+      m_matchCardsService.StopMatchProcess();
+      
       StartCoroutine(GameLoop());
     }
 
@@ -70,7 +73,7 @@ namespace CardMatchGame.Gameplay.Services
 
     private void ExitGameLoop()
     {
-      m_levelInput.enabled = false;
+      m_levelInput.SetEnabled(false);
       m_matchCardsService.StopMatchProcess();
       
       OnGameOver?.Invoke();
@@ -89,18 +92,18 @@ namespace CardMatchGame.Gameplay.Services
     {
       OnGameStart?.Invoke();
       
-      m_levelInput.enabled = false;
+      m_levelInput.SetEnabled(false);
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
 
-      yield return m_cardsService.FlipAllCardsToBack()
+      yield return m_cardsService.FlipCardsToBack()
         .ToYieldInstruction();
       
       m_cardsService.Shuffle();
 
       yield return m_cardsService.ShowCardsHint();
       
-      m_levelInput.enabled = true;
+      m_levelInput.SetEnabled(true);
     }
   }
 }

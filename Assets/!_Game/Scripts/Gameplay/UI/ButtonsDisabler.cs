@@ -1,4 +1,4 @@
-using CardMatchGame.Gameplay.Services;
+using CardMatchGame.Gameplay.Services.Input;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,7 +10,7 @@ namespace CardMatchGame.Gameplay.UI
     public Button[] Buttons;
     
     [Inject]
-    private void Construct(LevelInputService levelInput) => 
+    private void Construct(ILevelInput levelInput) => 
       levelInput.OnEnabledChanged += UpdateView;
 
     private void UpdateView(bool isEnabled)
