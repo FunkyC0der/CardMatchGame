@@ -22,8 +22,6 @@ namespace CardMatchGame.Gameplay.Services
 
     public void Initialize()
     {
-      Debug.Log(MethodBase.GetCurrentMethod());
-
       Size = m_levelsService.LevelData.GridSize;
       m_origin = ComputeOrigin();
     }

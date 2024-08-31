@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CardMatchGame.Gameplay.Services.Input;
+using CardMatchGame.Gameplay.UI;
 using CardMatchGame.Gameplay.Utils;
 using CardMatchGame.Services.Levels;
 using UnityEngine;
@@ -15,6 +16,9 @@ namespace CardMatchGame.Gameplay.Services
 
     [NonSerialized]
     public readonly Cooldown LevelTimer = new();
+
+    [NonSerialized]
+    public StartLevelHintView StartLevelHintView;
 
     private GridService m_grid;
     private CardsService m_cardsService;
@@ -36,25 +40,31 @@ namespace CardMatchGame.Gameplay.Services
       m_levelsService = levelsService;
     }
 
-    public void Initialize() => 
-      LevelTimer.Init(m_levelsService.LevelData.TimerDuration);
-
-    private IEnumerator Start()
+    public void Initialize()
     {
-      yield return GameLoop();
+      LevelTimer.Init(m_levelsService.LevelData.TimerDuration);
+      m_levelInput.SetEnabled(false);
     }
+
+    private void Start() => 
+      StartGame();
 
     public void Restart()
     {
       StopAllCoroutines();
       m_matchCardsService.StopMatchProcess();
       
+      StartGame();
+    }
+
+    private void StartGame()
+    {
       StartCoroutine(GameLoop());
     }
 
     private IEnumerator GameLoop()
     {
-      yield return StartGame();
+      yield return EnterGameLoop();
 
       yield return WaitGameOverCondition();
 
@@ -78,13 +88,15 @@ namespace CardMatchGame.Gameplay.Services
       }
     }
 
-    private IEnumerator StartGame()
+    private IEnumerator EnterGameLoop()
     {
       OnGameStart?.Invoke();
       
       m_levelInput.SetEnabled(false);
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
+
+      yield return StartLevelHintView.ShowHint();
 
       yield return m_cardsService.FlipAllCardsToBack()
         .ToYieldInstruction();
