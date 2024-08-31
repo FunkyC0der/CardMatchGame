@@ -13,7 +13,7 @@ namespace CardMatchGame.Services.SaveLoad
     private const string m_kProgressDataFileName = "ProgressData";
 
     private readonly ISerializer m_serializer;
-
+    
     public FileSaveLoadService(ISerializer serializer) => 
       m_serializer = serializer;
 
@@ -47,11 +47,16 @@ namespace CardMatchGame.Services.SaveLoad
 
     private static void InitSavesDirectoryPath()
     {
-      string dataPath = Application.isEditor ? Directory.GetCurrentDirectory() : Application.persistentDataPath;
-      m_sSavesDirectoryPath = Path.Combine(dataPath, m_kSavesDirectoryName);
+      m_sSavesDirectoryPath = CreateSavesDirectoryPath();
 
       if (!Directory.Exists(m_sSavesDirectoryPath))
         Directory.CreateDirectory(m_sSavesDirectoryPath);
+    }
+
+    public static string CreateSavesDirectoryPath()
+    {
+      string dataPath = Application.isEditor ? Directory.GetCurrentDirectory() : Application.persistentDataPath;
+      return Path.Combine(dataPath, m_kSavesDirectoryName);
     }
   }
 }
