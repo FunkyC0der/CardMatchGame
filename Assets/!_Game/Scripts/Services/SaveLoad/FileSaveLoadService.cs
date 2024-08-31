@@ -1,6 +1,7 @@
 using System.IO;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.Serialization;
+using CardMatchGame.Services.Settings;
 using UnityEngine;
 
 namespace CardMatchGame.Services.SaveLoad
@@ -11,9 +12,10 @@ namespace CardMatchGame.Services.SaveLoad
     private static string m_sSavesDirectoryPath;
     
     private const string m_kProgressDataFileName = "ProgressData";
+    private const string m_kSettingsDataFileName = "SettingsData";
 
     private readonly ISerializer m_serializer;
-    
+
     public FileSaveLoadService(ISerializer serializer) => 
       m_serializer = serializer;
 
@@ -22,6 +24,12 @@ namespace CardMatchGame.Services.SaveLoad
 
     public ProgressData LoadProgressData() =>
       ReadFromFile<ProgressData>(m_kProgressDataFileName);
+
+    public void Save(SettingsData data) => 
+      SaveToFile(data, m_kSettingsDataFileName);
+
+    public SettingsData LoadSettingsData() => 
+      ReadFromFile<SettingsData>(m_kSettingsDataFileName);
 
     private void SaveToFile<T>(T data, string fileName)
     {

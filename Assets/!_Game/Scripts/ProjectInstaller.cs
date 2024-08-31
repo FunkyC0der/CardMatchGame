@@ -3,6 +3,7 @@ using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.Serialization;
+using CardMatchGame.Services.Settings;
 using Zenject;
 
 namespace CardMatchGame
@@ -16,6 +17,7 @@ namespace CardMatchGame
     {
       BindSerializer();
       BindSaveLoadService();
+      BindSettingsService();
       BindProgressService();
       BindLevelsService();
       BindBootService();
@@ -56,6 +58,11 @@ namespace CardMatchGame
           break;
       }
     }
+
+    private void BindSettingsService() =>
+      Container.Bind<ISettingsService>()
+        .To<SettingsService>()
+        .AsSingle();
 
     private void BindProgressService() =>
       Container.Bind<IProgressService>()
