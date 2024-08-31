@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace CardMatchGame.Services.Progress
 {
@@ -13,6 +14,7 @@ namespace CardMatchGame.Services.Progress
   public class CompletedLevelData
   {
     public int Index;
-    public float BestTime;
+    [FormerlySerializedAs("BestTime")]
+    public float TimeRecord;
   }
 }

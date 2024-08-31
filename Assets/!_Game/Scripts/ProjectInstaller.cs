@@ -75,6 +75,7 @@ namespace CardMatchGame
         .AsSingle();
 
     private void BindBootService() => 
-      Container.BindInterfacesTo<BootService>().AsSingle();
+      Container.BindInterfacesTo<BootService>()
+        .AsSingle();
   }
 }

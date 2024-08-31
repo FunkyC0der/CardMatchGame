@@ -92,27 +92,22 @@ namespace CardMatchGame.Gameplay.UI
       var completedLevelData = new CompletedLevelData()
       {
         Index = m_levelsService.LevelIndex,
-        BestTime = m_levelProgress.LevelTimer.TimeElapsed
+        TimeRecord = m_levelProgress.LevelTimer.TimeElapsed
       };
 
       m_progressService.AddCompletedLevelData(completedLevelData);
-      m_progressService.Save();
-      
       return completedLevelData;
     }
 
     private bool IsNewTimeRecord(CompletedLevelData completedLevelData) => 
-      completedLevelData.BestTime > m_levelProgress.LevelTimer.TimeElapsed;
+      completedLevelData.TimeRecord > m_levelProgress.LevelTimer.TimeElapsed;
 
-    private void UpdateNewTimeRecordData(CompletedLevelData completedLevelData)
-    {
-      completedLevelData.BestTime = m_levelProgress.LevelTimer.TimeElapsed;
-      m_progressService.Save();
-    }
+    private void UpdateNewTimeRecordData(CompletedLevelData completedLevelData) => 
+      completedLevelData.TimeRecord = m_levelProgress.LevelTimer.TimeElapsed;
 
     private void ShowNewTimeRecordText(CompletedLevelData completedLevelData)
     {
-      NewTimeRecordText.UpdateView(completedLevelData.BestTime.ToMinutesAndSeconds(), 
+      NewTimeRecordText.UpdateView(completedLevelData.TimeRecord.ToMinutesAndSeconds(), 
         m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
 
       NewTimeRecordText.gameObject.SetActive(true);
