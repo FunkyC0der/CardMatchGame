@@ -12,6 +12,7 @@ namespace CardMatchGame.Gameplay.Cards
 
     public bool IsMatched;
     public bool IsFrontSide;
+    public bool IsSelected;
     
     public bool Selectable
     {

@@ -60,7 +60,10 @@ namespace CardMatchGame.Gameplay.Services
     private IEnumerator MatchProcess(Card newCard)
     {
       m_cardsToMatch.Add(newCard);
+      
       newCard.Selectable = false;
+      newCard.IsSelected = true;
+      
       bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
       
       m_levelInput.SetEnabled(false);
@@ -84,15 +87,21 @@ namespace CardMatchGame.Gameplay.Services
         .ToYieldInstruction();
 
       foreach (Card card in m_cardsToMatch)
+      {
         card.Selectable = true;
+        card.IsSelected = false;
+      }
         
       m_cardsToMatch.Clear();
     }
 
     private IEnumerator MatchSuccessProcess()
     {
-      foreach (Card card in m_cardsToMatch) 
+      foreach (Card card in m_cardsToMatch)
+      {
         card.IsMatched = true;
+        card.IsSelected = false;
+      }
       
       yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
         .ToYieldInstruction();

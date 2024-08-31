@@ -96,7 +96,7 @@ namespace CardMatchGame.Gameplay.Services
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
 
-      yield return m_cardsService.FlipCardsToBack()
+      yield return m_cardsService.FlipAllCardsToBack()
         .ToYieldInstruction();
       
       m_cardsService.Shuffle();

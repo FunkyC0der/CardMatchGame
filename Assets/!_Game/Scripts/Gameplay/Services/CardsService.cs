@@ -45,23 +45,24 @@ namespace CardMatchGame.Gameplay.Services
 
     public IEnumerator ShowCardsHint()
     {
-      yield return FlipCardsToFront()
+      yield return FlipAllCardsToFront()
         .ChainDelay(m_levelsDataService.LevelData.ShowCardsDuration)
         .ToYieldInstruction();
 
-      yield return FlipCardsToBack(true)
+      yield return m_cards
+        .Where(card => !card.IsMatched && !card.IsSelected)
+        .GroupTweens(card => card.Animator.PlayFlipAnim())
         .ToYieldInstruction();
     }
 
-    public Sequence FlipCardsToBack(bool skipMatched = false)
+    public Sequence FlipAllCardsToBack()
     {
       return m_cards
-        .Where(card => skipMatched || card.IsFrontSide)
         .Where(card => card.IsFrontSide)
         .GroupTweens(card => card.Animator.PlayFlipAnim());
     }
 
-    private Sequence FlipCardsToFront()
+    private Sequence FlipAllCardsToFront()
     {
       return m_cards
         .Where(card => !card.IsFrontSide)
@@ -73,6 +74,7 @@ namespace CardMatchGame.Gameplay.Services
       foreach (Card card in m_cards)
       {
         card.Selectable = true;
+        card.IsSelected = false;
         card.IsMatched = false;
       }
     }
