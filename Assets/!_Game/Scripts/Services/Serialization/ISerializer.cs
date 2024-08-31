@@ -1,5 +1,3 @@
-using CardMatchGame.Services.Progress;
-
 namespace CardMatchGame.Services.Serialization
 {
   public interface ISerializer

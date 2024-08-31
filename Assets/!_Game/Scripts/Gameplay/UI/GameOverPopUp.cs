@@ -1,4 +1,3 @@
-using System;
 using CardMatchGame.Gameplay.Services;
 using CardMatchGame.Gameplay.UI.Utils;
 using CardMatchGame.Services.Levels;
@@ -6,7 +5,6 @@ using CardMatchGame.Services.Progress;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace CardMatchGame.Gameplay.UI

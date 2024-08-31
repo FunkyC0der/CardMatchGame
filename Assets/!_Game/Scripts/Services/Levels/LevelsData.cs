@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CardMatchGame.Data
+namespace CardMatchGame.Services.Levels
 {
   [CreateAssetMenu(fileName = "LevelsData", menuName = "Game/LevelsData")]
   public class LevelsData : ScriptableObject

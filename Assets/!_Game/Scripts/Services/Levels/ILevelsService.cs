@@ -1,5 +1,3 @@
-using CardMatchGame.Data;
-
 namespace CardMatchGame.Services.Levels
 {
   public interface ILevelsService
