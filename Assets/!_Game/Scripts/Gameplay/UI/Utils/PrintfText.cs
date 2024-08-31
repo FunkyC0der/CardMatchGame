@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,19 +7,18 @@ namespace CardMatchGame.Gameplay.UI.Utils
   [RequireComponent(typeof(TextMeshProUGUI))]
   public class PrintfText : MonoBehaviour
   {
-    private TextMeshProUGUI m_text;
-    private string m_originalTextFormat;
+    public TextMeshProUGUI Text;
+    
+    [TextArea]
+    public string TextFormat;
 
-    private void Awake()
-    {
-      m_text = GetComponent<TextMeshProUGUI>();
-      m_originalTextFormat = m_text.text;
-    }
+    public void UpdateView(params object[] args) => 
+      Text.text = string.Format(TextFormat, args);
 
-    public void UpdateView(params object[] args)
+    private void OnValidate()
     {
-      if(m_text)
-        m_text.text = string.Format(m_originalTextFormat, args);
+      if(Text)
+        Text.text = TextFormat;
     }
   }
 }

@@ -13,6 +13,7 @@ namespace CardMatchGame.Gameplay.Utils
     private float m_timeElapsed;
     
     public float TimeLeft => Duration - m_timeElapsed;
+    public float TimeElapsed => m_timeElapsed;
     public bool IsReady => !IsTicking;
     public bool IsTicking => TimeLeft > 0;
 

@@ -1,4 +1,5 @@
 using CardMatchGame.Services.Levels;
+using CardMatchGame.Services.Progress;
 using Zenject;
 
 namespace CardMatchGame
@@ -11,6 +12,10 @@ namespace CardMatchGame
     {
       Container.Bind(typeof(ILevelsService), typeof(IInitializable))
         .FromInstance(LevelsService)
+        .AsSingle();
+
+      Container.Bind<IProgressService>()
+        .To<ProgressService>()
         .AsSingle();
     }
   }
