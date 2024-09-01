@@ -21,27 +21,23 @@ namespace CardMatchGame.Gameplay.UI
     private void Construct(LevelProgress levelProgress)
     {
       m_levelProgress = levelProgress;
-      m_levelProgress.OnGameOver += StopTimer;
+
+      m_levelProgress.OnGameStart += () => enabled = true;
+      m_levelProgress.OnGameOver += StopView;
     }
 
     private void Update()
     {
-      if (m_levelProgress.LevelTimer.IsReady)
-        return;
-      
       Text.text = m_levelProgress.LevelTimer.TimeLeft.ToMinutesAndSeconds();
       
       if(m_levelProgress.LevelTimer.TimeLeft < EndTimeAnimThreshold && !m_endTimeAnim.isAlive)
         m_endTimeAnim = Tween.Color(Text, EndTimeAnimSettings);
-      
-      if(m_levelProgress.LevelTimer.TimeLeft > EndTimeAnimThreshold && m_endTimeAnim.isAlive)
-        m_endTimeAnim.Stop();
     }
 
-    private void StopTimer()
+    private void StopView()
     {
-      Text.text = 0f.ToMinutesAndSeconds();
-      m_endTimeAnim.Stop();
+      enabled = false;
+      m_endTimeAnim.Complete();
     }
   }
 }
