@@ -11,12 +11,16 @@ namespace CardMatchGame.Gameplay.Cards
     public ShakeSettings ShakeSettings;
     public ShakeSettings PunchSettings;
 
-    public Sequence PlayFlipAnim()
-    {
-      return Sequence.Create()
-        .Chain(Tween.Rotation(transform, FlipToFrontSideSettings.WithDirection(!Card.IsFrontSide)))
-        .ChainCallback(Card.Flip);
-    }
+    public Sequence PlayFlipToFrontAnim() =>
+      PlayFlipAnim(true);
+
+    public Sequence PlayFlipToBackAnim() =>
+      PlayFlipAnim(false);
+
+    public Sequence PlayFlipAnim(bool toFront) =>
+      Sequence.Create()
+        .Chain(Tween.Rotation(transform, FlipToFrontSideSettings.WithDirection(toFront)))
+        .ChainCallback(() => Card.IsFrontSide = toFront);
 
     public Tween PlayMatchSuccessAnim() =>
       Tween.PunchScale(transform, PunchSettings);

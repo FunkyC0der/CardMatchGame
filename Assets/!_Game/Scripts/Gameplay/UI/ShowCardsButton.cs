@@ -26,7 +26,10 @@ namespace CardMatchGame.Gameplay.UI
     private IEnumerator ShowCards()
     {
       m_levelInput.SetEnabled(false);
-      yield return m_cardsService.ShowCardsHint();
+      
+      yield return m_cardsService.ShowCardsHint()
+        .ToYieldInstruction();
+      
       m_levelInput.SetEnabled(true);
     }
   }

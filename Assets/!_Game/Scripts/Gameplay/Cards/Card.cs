@@ -10,9 +10,7 @@ namespace CardMatchGame.Gameplay.Cards
     public Collider2D InteractionCollider;
     public CardAnimator Animator;
 
-    public bool IsMatched;
     public bool IsFrontSide;
-    public bool IsSelected;
     
     public bool Selectable
     {
@@ -28,8 +26,5 @@ namespace CardMatchGame.Gameplay.Cards
       Desc = desc;
       FrontRenderer.sprite = desc.FrontSprite;
     }
-
-    public void Flip() => 
-      IsFrontSide = !IsFrontSide;
   }
 }

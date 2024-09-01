@@ -52,9 +52,7 @@ namespace CardMatchGame.Gameplay.Services
       
       StopAllCoroutines();
 
-      foreach (Card card in m_cardsToMatch) 
-        card.Animator.PlayFlipAnim();
-      
+      m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim());
       m_cardsToMatch.Clear();
     }
 
@@ -63,57 +61,49 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator MatchProcess(Card newCard)
     {
-      m_cardsToMatch.Add(newCard);
-      
       newCard.Selectable = false;
-      newCard.IsSelected = true;
+      m_cardsToMatch.Add(newCard);
       
       bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
       
-      m_levelInput.SetEnabled(false);
-      
-      yield return newCard.Animator.PlayFlipAnim().ToYieldInstruction();
+      yield return newCard.Animator.PlayFlipToFrontAnim().ToYieldInstruction();
       
       if (!allCardsMatch)
         yield return MatchFailProcess();
       else if (m_cardsToMatch.Count == m_cardsToMatchCount)
         yield return MatchSuccessProcess();
-      
-      m_levelInput.SetEnabled(true);
     }
 
     private IEnumerator MatchFailProcess()
     {
-      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim())
-        .ToYieldInstruction();
+      yield return PlayLongAnim(
+        m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim())
+        .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim()))
+        .ToYieldInstruction());
 
-      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipAnim())
-        .ToYieldInstruction();
-
-      foreach (Card card in m_cardsToMatch)
-      {
+      foreach (Card card in m_cardsToMatch) 
         card.Selectable = true;
-        card.IsSelected = false;
-      }
         
       m_cardsToMatch.Clear();
     }
 
     private IEnumerator MatchSuccessProcess()
     {
-      foreach (Card card in m_cardsToMatch)
-      {
-        card.IsMatched = true;
-        card.IsSelected = false;
-      }
-      
-      yield return m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
-        .ToYieldInstruction();
-        
+      yield return PlayLongAnim(
+        m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
+        .ToYieldInstruction());
+
       m_cardsToMatch.Clear();
 
       ++MatchesCount;
       OnMatchesCountChanged?.Invoke();
+    }
+
+    private IEnumerator PlayLongAnim(IEnumerator anim)
+    {
+      m_levelInput.SetEnabled(false);
+      yield return anim;
+      m_levelInput.SetEnabled(true);
     }
   }
 }

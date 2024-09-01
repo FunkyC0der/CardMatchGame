@@ -106,7 +106,8 @@ namespace CardMatchGame.Gameplay.Services
       
       m_cardsService.Shuffle();
 
-      yield return m_cardsService.ShowCardsHint();
+      yield return m_cardsService.ShowCardsHint()
+        .ToYieldInstruction();
       
       m_levelInput.SetEnabled(true);
     }

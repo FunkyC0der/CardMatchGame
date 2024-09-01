@@ -45,40 +45,25 @@ namespace CardMatchGame.Gameplay.Services
       UpdateCardsPosition();
     }
 
-    public IEnumerator ShowCardsHint()
+    public Sequence ShowCardsHint()
     {
-      yield return FlipAllCardsToFront()
+      Card[] cardsToShow = m_cards.Where(card => !card.IsFrontSide).ToArray();
+      
+      return FlipCards(cardsToShow, toFront: true)
         .ChainDelay(m_levelsService.LevelData.ShowCardsDuration)
-        .ToYieldInstruction();
-
-      yield return m_cards
-        .Where(card => !card.IsMatched && !card.IsSelected)
-        .GroupTweens(card => card.Animator.PlayFlipAnim())
-        .ToYieldInstruction();
+        .Chain(FlipCards(cardsToShow, toFront: false));
     }
 
-    public Sequence FlipAllCardsToBack()
-    {
-      return m_cards
-        .Where(card => card.IsFrontSide)
-        .GroupTweens(card => card.Animator.PlayFlipAnim());
-    }
+    public Sequence FlipAllCardsToBack() => 
+      FlipCards(m_cards.Where(card => card.IsFrontSide).ToArray(), toFront: false);
 
-    private Sequence FlipAllCardsToFront()
-    {
-      return m_cards
-        .Where(card => !card.IsFrontSide)
-        .GroupTweens(card => card.Animator.PlayFlipAnim());
-    }
+    private static Sequence FlipCards(IReadOnlyCollection<Card> cards, bool toFront) =>
+      cards.GroupTweens(card => card.Animator.PlayFlipAnim(toFront));
 
     private void ResetCardsState()
     {
-      foreach (Card card in m_cards)
-      {
+      foreach (Card card in m_cards) 
         card.Selectable = true;
-        card.IsSelected = false;
-        card.IsMatched = false;
-      }
     }
 
     private void UpdateCardsPosition()
