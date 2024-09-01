@@ -100,7 +100,7 @@ namespace CardMatchGame.Gameplay.UI
     }
 
     private bool IsNewTimeRecord(CompletedLevelData completedLevelData) => 
-      completedLevelData.TimeRecord > m_levelProgress.LevelTimer.TimeElapsed;
+      m_levelProgress.LevelTimer.TimeElapsed < completedLevelData.TimeRecord;
 
     private void UpdateNewTimeRecordData(CompletedLevelData completedLevelData) => 
       completedLevelData.TimeRecord = m_levelProgress.LevelTimer.TimeElapsed;
