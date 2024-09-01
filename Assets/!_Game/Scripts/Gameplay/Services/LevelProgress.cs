@@ -4,7 +4,6 @@ using CardMatchGame.Gameplay.Services.Input;
 using CardMatchGame.Gameplay.UI;
 using CardMatchGame.Gameplay.Utils;
 using CardMatchGame.Services.Levels;
-using CardMatchGame.Services.Progress;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +24,6 @@ namespace CardMatchGame.Gameplay.Services
     private ILevelInput m_levelInput;
     private MatchCardsService m_matchCardsService;
     private ILevelsService m_levelsService;
-    private IProgressService m_progressService;
 
     public bool IsLevelCompleted => m_matchCardsService.MatchesCount == m_matchCardsService.MatchesCountToWin;
 
@@ -33,14 +31,12 @@ namespace CardMatchGame.Gameplay.Services
     private void Construct(CardsService cardsService,
       ILevelInput levelInput,
       MatchCardsService matchCardsService,
-      ILevelsService levelsService,
-      IProgressService progressService)
+      ILevelsService levelsService)
     {
       m_cardsService = cardsService;
       m_levelInput = levelInput;
       m_matchCardsService = matchCardsService;
       m_levelsService = levelsService;
-      m_progressService = progressService;
     }
 
     public void Initialize()
@@ -49,20 +45,9 @@ namespace CardMatchGame.Gameplay.Services
       m_levelInput.SetEnabled(false);
     }
 
-    private void Start() => 
-      StartGame();
-
-    public void Restart()
+    private IEnumerator Start()
     {
-      StopAllCoroutines();
-      m_matchCardsService.StopMatchProcess();
-      
-      StartGame();
-    }
-
-    private void StartGame()
-    {
-      StartCoroutine(GameLoop());
+      yield return GameLoop();
     }
 
     private IEnumerator GameLoop()

@@ -6,7 +6,5 @@ namespace CardMatchGame.Services.Levels
     LevelData LevelData { get; }
     LevelData[] Levels { get; }
     void SetLevelData(int index);
-
-    void LoadLevel(int index);
   }
 }

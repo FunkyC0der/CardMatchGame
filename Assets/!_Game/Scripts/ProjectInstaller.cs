@@ -4,6 +4,7 @@ using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.Serialization;
 using CardMatchGame.Services.Settings;
+using UnityEngine;
 using Zenject;
 
 namespace CardMatchGame
@@ -11,17 +12,25 @@ namespace CardMatchGame
   public class ProjectInstaller : MonoInstaller
   {
     public ProjectConfig ProjectConfig;
+    
+    [Space]
+    public SceneLoader SceneLoader;
     public LevelsService LevelsService;
 
     public override void InstallBindings()
     {
+      BindSceneLoader();
       BindSerializer();
       BindSaveLoadService();
       BindSettingsService();
       BindProgressService();
       BindLevelsService();
-      BindBootService();
     }
+
+    private void BindSceneLoader() => 
+      Container.BindInterfacesAndSelfTo<SceneLoader>()
+        .FromInstance(SceneLoader)
+        .AsSingle();
 
     private void BindSerializer()
     {
@@ -72,10 +81,6 @@ namespace CardMatchGame
     private void BindLevelsService() =>
       Container.Bind(typeof(ILevelsService), typeof(IInitializable))
         .FromInstance(LevelsService)
-        .AsSingle();
-
-    private void BindBootService() => 
-      Container.BindInterfacesTo<BootService>()
         .AsSingle();
   }
 }

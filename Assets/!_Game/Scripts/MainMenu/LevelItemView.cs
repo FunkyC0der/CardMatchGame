@@ -14,7 +14,7 @@ namespace CardMatchGame.MainMenu
     public Button Button;
     public PrintfText NameText;
     public Color CompletedColor;
-    
+
     private ILevelsService m_levelsService;
     private IProgressService m_progressService;
 
@@ -27,9 +27,9 @@ namespace CardMatchGame.MainMenu
 
     private void Start()
     {
-      Button.onClick.AddListener(() => m_levelsService.LoadLevel(LevelIndex));
+      Button.onClick.AddListener(() => m_levelsService.SetLevelData(LevelIndex));
       NameText.UpdateView(LevelIndex + 1);
-
+      
       CompletedLevelData completedLevel = m_progressService.FindCompletedLevelData(LevelIndex);
       if (completedLevel != null)
         Button.image.color = CompletedColor;

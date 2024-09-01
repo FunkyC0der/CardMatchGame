@@ -328,10 +328,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 39999629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad85e0a06e9497b84c2ae4fd646f5c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 208b8bfe30ce4a18a6c3083f41786365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 39999631}
+  Scene: 1
 --- !u!1 &109826238
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,11 +597,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 171772838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8750a760b8b401ab5f182572268e09f, type: 3}
+  m_Script: {fileID: 11500000, guid: 208b8bfe30ce4a18a6c3083f41786365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuSceneName: MainMenu
-  Button: {fileID: 171772840}
+  Scene: 0
 --- !u!1 &225097836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,11 +1935,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 954438894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8750a760b8b401ab5f182572268e09f, type: 3}
+  m_Script: {fileID: 11500000, guid: 208b8bfe30ce4a18a6c3083f41786365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuSceneName: MainMenu
-  Button: {fileID: 954438896}
+  Scene: 0
 --- !u!1 &961844415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2207,10 +2205,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 977299404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad85e0a06e9497b84c2ae4fd646f5c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 208b8bfe30ce4a18a6c3083f41786365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 977299406}
+  Scene: 1
 --- !u!1 &1061292252
 GameObject:
   m_ObjectHideFlags: 0

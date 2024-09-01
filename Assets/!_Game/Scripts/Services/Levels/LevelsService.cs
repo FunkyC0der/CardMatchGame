@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace CardMatchGame.Services.Levels
@@ -21,12 +20,6 @@ namespace CardMatchGame.Services.Levels
     {
       LevelIndex = index;
       LevelData = LevelsData.Levels[index];
-    }
-
-    public void LoadLevel(int index)
-    {
-      SetLevelData(index);
-      SceneManager.LoadSceneAsync(LevelSceneName);
     }
   }
 }

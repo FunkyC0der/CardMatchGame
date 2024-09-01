@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1809417528863271102}
   - component: {fileID: 4320066701679492489}
+  - component: {fileID: 2243813969205399607}
   - component: {fileID: 6195646179805280072}
   - component: {fileID: 6294353659793741864}
   - component: {fileID: 393301036368201341}
@@ -57,6 +58,19 @@ MonoBehaviour:
   Button: {fileID: 8471966898391531843}
   NameText: {fileID: 1688646031027291498}
   CompletedColor: {r: 0.7372549, g: 1, b: 0.38039216, a: 1}
+--- !u!114 &2243813969205399607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6011399690667597785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208b8bfe30ce4a18a6c3083f41786365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scene: 1
 --- !u!114 &6195646179805280072
 MonoBehaviour:
   m_ObjectHideFlags: 0
