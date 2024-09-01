@@ -13,8 +13,9 @@ namespace CardMatchGame.Editor
     static BootSceneAutoLoader()
     {
       EditorSceneManager.sceneOpened += OnSceneOpened;
-      EditorBuildSettings.sceneListChanged += SceneListChanged;
+      EditorBuildSettings.sceneListChanged += SetBootAsStartScene;
       
+      SetBootAsStartScene();
       UpdateFirstScene(EditorSceneManager.GetActiveScene());
     }
 
@@ -24,7 +25,7 @@ namespace CardMatchGame.Editor
     private static void UpdateFirstScene(Scene scene) =>
       BootService.FirstScene = scene.name is "Boot" or "MainMenu" ? EScene.MainMenu : EScene.Level;
 
-    static void SceneListChanged() 
+    static void SetBootAsStartScene() 
     {
       SceneAsset bootSceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorBuildSettings.scenes[0].path);
 

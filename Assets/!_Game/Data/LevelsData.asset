@@ -32,7 +32,7 @@ MonoBehaviour:
   - GridSize: {x: 4, y: 3}
     CardsCountToMatch: 3
     ShowCardsDuration: 3
-    TimerDuration: 30
+    TimerDuration: 50
   - GridSize: {x: 4, y: 4}
     CardsCountToMatch: 2
     ShowCardsDuration: 3
