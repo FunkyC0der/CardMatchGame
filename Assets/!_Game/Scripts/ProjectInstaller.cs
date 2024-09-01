@@ -28,8 +28,7 @@ namespace CardMatchGame
     }
 
     private void BindSceneLoader() => 
-      Container.BindInterfacesAndSelfTo<SceneLoader>()
-        .FromInstance(SceneLoader)
+      Container.BindInstance(SceneLoader)
         .AsSingle();
 
     private void BindSerializer()
