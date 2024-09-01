@@ -99,12 +99,12 @@ namespace CardMatchGame.Gameplay.Services
       m_matchCardsService.StartGame();
       LevelTimer.Activate();
 
-      yield return StartLevelHintView.ShowHint();
-
       yield return m_cardsService.FlipAllCardsToBack()
         .ToYieldInstruction();
       
       m_cardsService.Shuffle();
+
+      yield return StartLevelHintView.ShowHint();
 
       yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
