@@ -34,5 +34,6 @@ The project is organized using Zenject installers:
 
 ## Future improvements
 * `BootService` can load saves asynchronously.
+* Add a loading curtain at game start and during scene transitions.
 * Add a specialized window service to manage more complex menus with multiple windows, allowing navigation back and forth using a stack of opened windows.
 * Create a new implementation of `ILevelInput` to support touch controls, or integrate the New Input System.
