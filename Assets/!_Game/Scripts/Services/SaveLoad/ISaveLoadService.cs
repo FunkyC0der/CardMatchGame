@@ -5,6 +5,7 @@ namespace CardMatchGame.Services.SaveLoad
 {
   public interface ISaveLoadService
   {
+    bool NeedAsyncRun();
     void Save(ProgressData data);
     ProgressData LoadProgressData();
 

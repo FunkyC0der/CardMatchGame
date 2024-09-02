@@ -15,6 +15,9 @@ namespace CardMatchGame.Services.SaveLoad
     public PlayerPrefsSaveLoadService(ISerializer serializer) => 
       m_serializer = serializer;
 
+    public bool NeedAsyncRun() => 
+      false;
+
     public void Save(ProgressData data) =>
       SaveToPrefs(data, m_kProgressDataKey);
 

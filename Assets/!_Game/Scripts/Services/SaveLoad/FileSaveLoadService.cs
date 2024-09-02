@@ -19,6 +19,9 @@ namespace CardMatchGame.Services.SaveLoad
     public FileSaveLoadService(ISerializer serializer) => 
       m_serializer = serializer;
 
+    public bool NeedAsyncRun() => 
+      true;
+
     public void Save(ProgressData data) =>
       SaveToFile(data, m_kProgressDataFileName);
 

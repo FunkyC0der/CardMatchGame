@@ -11,7 +11,11 @@ namespace CardMatchGame.UI
     public EScene Scene;
 
     [Inject]
-    private void Construct(SceneLoader sceneLoader) => 
-      GetComponent<Button>().onClick.AddListener(() => sceneLoader.LoadScene(Scene));
+    private void Construct(SceneLoader sceneLoader, LoadingCurtain loadingCurtain) => 
+      GetComponent<Button>().onClick.AddListener(() =>
+      {
+        loadingCurtain.Show();
+        sceneLoader.LoadScene(Scene);
+      });
   }
 }

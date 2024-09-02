@@ -16,9 +16,11 @@ namespace CardMatchGame
     [Space]
     public SceneLoader SceneLoader;
     public LevelsService LevelsService;
+    public LoadingCurtain LoadingCurtain;
 
     public override void InstallBindings()
     {
+      BindLoadingCurtain();
       BindSceneLoader();
       BindSerializer();
       BindSaveLoadService();
@@ -26,6 +28,10 @@ namespace CardMatchGame
       BindProgressService();
       BindLevelsService();
     }
+
+    private void BindLoadingCurtain() => 
+      Container.BindInstance(LoadingCurtain)
+        .AsSingle();
 
     private void BindSceneLoader() => 
       Container.BindInstance(SceneLoader)
