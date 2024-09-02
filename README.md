@@ -32,7 +32,7 @@ The project is organized using Zenject installers:
 * A game-over pop-up appears at the end of each level.
 * I used the PrimeTween plugin to animate various elements and ensure code execution in the correct order.
 
-## Improvements
+## Future improvements
 * `BootService` can load saves asynchronously.
 * Add a specialized window service to manage more complex menus with multiple windows, allowing navigation back and forth using a stack of opened windows.
 * Create a new implementation of `ILevelInput` to support touch controls, or integrate the New Input System.
