@@ -30,6 +30,7 @@ The project is organized using Zenject installers:
 * The level includes control buttons: Show Hint, Restart, and Menu.
 * A hint is shown at the start of each level, indicating the number of cards to match.
 * A game-over pop-up appears at the end of each level.
+* I used the PrimeTween plugin to animate various elements and ensure code execution in the correct order.
 
 ## Improvements
 * `BootService` can load saves asynchronously.
