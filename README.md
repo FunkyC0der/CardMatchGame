@@ -33,7 +33,7 @@ The project is organized using Zenject installers:
 * I used the PrimeTween plugin to animate various elements and ensure code execution in the correct order.
 
 ## Future improvements
-* `BootService` can load saves asynchronously.
-* Add a loading curtain at game start and during scene transitions.
+* `BootService` can load saves asynchronously - **DONE**
+* Add a loading curtain at game start and during scene transitions - **DONE**
 * Add a specialized window service to manage more complex menus with multiple windows, allowing navigation back and forth using a stack of opened windows.
 * Create a new implementation of `ILevelInput` to support touch controls, or integrate the New Input System.
