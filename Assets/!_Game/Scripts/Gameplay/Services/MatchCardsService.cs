@@ -66,20 +66,22 @@ namespace CardMatchGame.Gameplay.Services
       
       bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
       
-      yield return newCard.Animator.PlayFlipToFrontAnim().ToYieldInstruction();
-      
-      if (!allCardsMatch)
-        yield return MatchFailProcess();
+      if(!allCardsMatch)
+        yield return MatchFailProcess(newCard);
       else if (m_cardsToMatch.Count == m_cardsToMatchCount)
-        yield return MatchSuccessProcess();
+        yield return MatchSuccessProcess(newCard);
+      else
+        yield return newCard.Animator.PlayFlipToFrontAnim()
+          .ToYieldInstruction();
     }
 
-    private IEnumerator MatchFailProcess()
+    private IEnumerator MatchFailProcess(Card newCard)
     {
       yield return PlayLongAnim(
-        m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim())
-        .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim()))
-        .ToYieldInstruction());
+        newCard.Animator.PlayFlipToFrontAnim()
+          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim()))
+          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim()))
+          .ToYieldInstruction());
 
       foreach (Card card in m_cardsToMatch) 
         card.Selectable = true;
@@ -87,11 +89,12 @@ namespace CardMatchGame.Gameplay.Services
       m_cardsToMatch.Clear();
     }
 
-    private IEnumerator MatchSuccessProcess()
+    private IEnumerator MatchSuccessProcess(Card newCard)
     {
       yield return PlayLongAnim(
-        m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim())
-        .ToYieldInstruction());
+        newCard.Animator.PlayFlipToFrontAnim()
+          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim()))
+          .ToYieldInstruction());
 
       m_cardsToMatch.Clear();
 
