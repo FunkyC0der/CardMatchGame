@@ -1,4 +1,5 @@
 using CardMatchGame.Services;
+using CardMatchGame.Services.Assets;
 using CardMatchGame.Services.Coroutines;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
@@ -16,13 +17,13 @@ namespace CardMatchGame
 
     [Space]
     public CoroutineRunner CoroutineRunner;
-    public LevelsService LevelsService;
     public LoadingCurtain LoadingCurtain;
 
     public override void InstallBindings()
     {
       BindLoadingCurtain();
       BindCoroutineRunner();
+      BindAssetsService();
       BindSceneLoader();
       BindSerializer();
       BindSaveLoadService();
@@ -40,6 +41,11 @@ namespace CardMatchGame
     private void BindCoroutineRunner() =>
       Container.Bind<ICoroutineRunner>()
         .FromInstance(CoroutineRunner)
+        .AsSingle();
+
+    private void BindAssetsService() =>
+      Container.Bind<IAssetsService>()
+        .To<AssetsService>()
         .AsSingle();
 
     private void BindSceneLoader() => 
@@ -93,8 +99,8 @@ namespace CardMatchGame
         .AsSingle();
 
     private void BindLevelsService() =>
-      Container.Bind(typeof(ILevelsService), typeof(IInitializable))
-        .FromInstance(LevelsService)
+      Container.Bind<ILevelsService>()
+        .To<LevelsService>()
         .AsSingle();
 
     private void BindBootService() =>

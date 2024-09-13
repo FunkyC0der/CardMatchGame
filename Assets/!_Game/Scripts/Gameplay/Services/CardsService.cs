@@ -28,7 +28,7 @@ namespace CardMatchGame.Gameplay.Services
 
     public void Initialize()
     {
-      int cardsCountToMatch = m_levelsService.LevelData.CardsCountToMatch;
+      int cardsCountToMatch = m_levelsService.CurrentLevelData.CardsCountToMatch;
       int cardsCount = m_grid.CellsCount;
       
       m_cardDescs = CardsBank.SelectRandomCards(cardsCount / cardsCountToMatch);
@@ -49,7 +49,7 @@ namespace CardMatchGame.Gameplay.Services
       Card[] cardsToShow = m_cards.Where(card => !card.IsFrontSide).ToArray();
       
       return FlipCards(cardsToShow, toFront: true)
-        .ChainDelay(m_levelsService.LevelData.ShowCardsDuration)
+        .ChainDelay(m_levelsService.CurrentLevelData.ShowCardsDuration)
         .Chain(FlipCards(cardsToShow, toFront: false));
     }
 

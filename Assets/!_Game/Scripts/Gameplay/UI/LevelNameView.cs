@@ -16,6 +16,6 @@ namespace CardMatchGame.Gameplay.UI
       m_levelsService = levelsService;
 
     private void Start() => 
-      Text.UpdateView(m_levelsService.LevelIndex + 1);
+      Text.UpdateView(m_levelsService.CurrentLevelIndex + 1);
   }
 }

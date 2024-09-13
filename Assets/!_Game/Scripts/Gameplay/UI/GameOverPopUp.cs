@@ -85,13 +85,13 @@ namespace CardMatchGame.Gameplay.UI
     }
 
     private CompletedLevelData FindCompletedLevelData() => 
-      m_progressService.FindCompletedLevelData(m_levelsService.LevelIndex);
+      m_progressService.FindCompletedLevelData(m_levelsService.CurrentLevelIndex);
 
     private CompletedLevelData AddNewCompletedLevelData()
     {
       var completedLevelData = new CompletedLevelData()
       {
-        Index = m_levelsService.LevelIndex,
+        Index = m_levelsService.CurrentLevelIndex,
         TimeRecord = m_levelProgress.LevelTimer.TimeElapsed
       };
 

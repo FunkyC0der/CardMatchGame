@@ -261,7 +261,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2122875316980084687}
-  - {fileID: 8376808019578654520}
   - {fileID: 8468163299968018302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -308,7 +307,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConfig: {fileID: 11400000, guid: 8a240bce8ad7e4299919be435cf5e6d2, type: 2}
   CoroutineRunner: {fileID: 2114634940301728749}
-  LevelsService: {fileID: 7106811994414705369}
   LoadingCurtain: {fileID: 4072235063157590982}
 --- !u!1 &4463995959352178800
 GameObject:
@@ -354,53 +352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ed6157ed69497fa7b884ba25532b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5246281325475102775
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8376808019578654520}
-  - component: {fileID: 7106811994414705369}
-  m_Layer: 0
-  m_Name: LevelsService
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8376808019578654520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5246281325475102775}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7260763033677357531}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7106811994414705369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5246281325475102775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0c535f7b7914fffbdc7f4e4f942be93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultLevelIndex: 0
-  LevelSceneName: GameLevel
-  LevelsData: {fileID: 11400000, guid: fc1c9b7e22ce44a61bfb805a9c1d785c, type: 2}
 --- !u!1 &7901294257782347805
 GameObject:
   m_ObjectHideFlags: 0

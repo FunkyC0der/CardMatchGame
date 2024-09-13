@@ -1,25 +1,21 @@
-using UnityEngine;
-using Zenject;
+using CardMatchGame.Services.Assets;
 
 namespace CardMatchGame.Services.Levels
 {
-  public class LevelsService : MonoBehaviour, ILevelsService, IInitializable
+  public class LevelsService : ILevelsService
   {
-    public int DefaultLevelIndex;
-    public string LevelSceneName = "GameLevel";
-    public LevelsData LevelsData;
+    private readonly IAssetsService m_assets;
 
-    public int LevelIndex { get; private set; }
-    public LevelData LevelData { get; private set; }
-    public LevelData[] Levels => LevelsData.Levels;
+    public LevelsService(IAssetsService assets) => 
+      m_assets = assets;
 
-    public void Initialize() => 
-      SetLevelData(DefaultLevelIndex);
+    public int CurrentLevelIndex { get; private set; }
+    public LevelData CurrentLevelData { get; private set; }
 
-    public void SetLevelData(int index)
+    public void SetCurrentLevelData(int index)
     {
-      LevelIndex = index;
-      LevelData = LevelsData.Levels[index];
+      CurrentLevelIndex = index;
+      CurrentLevelData = m_assets.LevelsData().Levels[index];
     }
   }
 }

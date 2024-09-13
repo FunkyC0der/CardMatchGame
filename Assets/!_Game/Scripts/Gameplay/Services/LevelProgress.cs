@@ -41,7 +41,7 @@ namespace CardMatchGame.Gameplay.Services
 
     public void Initialize()
     {
-      LevelTimer.Init(m_levelsService.LevelData.TimerDuration);
+      LevelTimer.Init(m_levelsService.CurrentLevelData.TimerDuration);
       m_levelInput.SetEnabled(false);
     }
 

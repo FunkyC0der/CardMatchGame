@@ -31,7 +31,7 @@ namespace CardMatchGame.Gameplay.UI
     public IEnumerator ShowHint()
     {
       gameObject.SetActive(true);
-      HintText.UpdateView(m_levelsService.LevelData.CardsCountToMatch);
+      HintText.UpdateView(m_levelsService.CurrentLevelData.CardsCountToMatch);
       
       return Sequence.Create()
         .Chain(Tween.UIAnchoredPosition(AnimWindow, ShowPositionAnimSettings))

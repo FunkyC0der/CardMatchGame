@@ -35,8 +35,8 @@ namespace CardMatchGame.Gameplay.Services
 
     public void Initialize()
     {
-      m_cardsToMatchCount = m_levelsService.LevelData.CardsCountToMatch;
-      MatchesCountToWin = m_levelsService.LevelData.MatchesCountToWin;
+      m_cardsToMatchCount = m_levelsService.CurrentLevelData.CardsCountToMatch;
+      MatchesCountToWin = m_levelsService.CurrentLevelData.MatchesCountToWin;
     }
 
     public void StartGame()
