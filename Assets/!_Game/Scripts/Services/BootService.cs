@@ -1,15 +1,13 @@
-using System;
 using System.Threading.Tasks;
-using CardMatchGame.Services;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.Settings;
 using UnityEngine;
 using Zenject;
 
-namespace CardMatchGame.Boot
+namespace CardMatchGame.Services
 {
-  public class BootService : IInitializable, IDisposable
+  public class BootService : IInitializable
   {
     public static EScene FirstScene = EScene.MainMenu;
 
@@ -44,19 +42,10 @@ namespace CardMatchGame.Boot
       m_sceneLoader.LoadScene(FirstScene);
     }
 
-    public void Dispose() => 
-      SaveGameData();
-
     private void LoadGameData()
     {
       m_settingsService.Settings = m_saveLoadService.LoadSettingsData() ?? new SettingsData();
       m_progressService.Progress = m_saveLoadService.LoadProgressData() ?? new ProgressData();
-    }
-
-    private void SaveGameData()
-    {
-      m_saveLoadService.Save(m_settingsService.Settings);
-      m_saveLoadService.Save(m_progressService.Progress);
     }
   }
 }

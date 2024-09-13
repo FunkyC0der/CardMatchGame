@@ -27,6 +27,7 @@ namespace CardMatchGame
       BindSettingsService();
       BindProgressService();
       BindLevelsService();
+      BindBootService();
     }
 
     private void BindLoadingCurtain() => 
@@ -86,6 +87,10 @@ namespace CardMatchGame
     private void BindLevelsService() =>
       Container.Bind(typeof(ILevelsService), typeof(IInitializable))
         .FromInstance(LevelsService)
+        .AsSingle();
+
+    private void BindBootService() =>
+      Container.BindInterfacesTo<BootService>()
         .AsSingle();
   }
 }
