@@ -1,4 +1,5 @@
 using CardMatchGame.Services;
+using CardMatchGame.Services.Coroutines;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
@@ -12,15 +13,16 @@ namespace CardMatchGame
   public class ProjectInstaller : MonoInstaller
   {
     public ProjectConfig ProjectConfig;
-    
+
     [Space]
-    public SceneLoader SceneLoader;
+    public CoroutineRunner CoroutineRunner;
     public LevelsService LevelsService;
     public LoadingCurtain LoadingCurtain;
 
     public override void InstallBindings()
     {
       BindLoadingCurtain();
+      BindCoroutineRunner();
       BindSceneLoader();
       BindSerializer();
       BindSaveLoadService();
@@ -28,14 +30,20 @@ namespace CardMatchGame
       BindProgressService();
       BindLevelsService();
       BindBootService();
+      BindGameQuitSaver();
     }
 
     private void BindLoadingCurtain() => 
       Container.BindInstance(LoadingCurtain)
         .AsSingle();
 
+    private void BindCoroutineRunner() =>
+      Container.Bind<ICoroutineRunner>()
+        .FromInstance(CoroutineRunner)
+        .AsSingle();
+
     private void BindSceneLoader() => 
-      Container.BindInstance(SceneLoader)
+      Container.Bind<SceneLoader>()
         .AsSingle();
 
     private void BindSerializer()
@@ -91,6 +99,10 @@ namespace CardMatchGame
 
     private void BindBootService() =>
       Container.BindInterfacesTo<BootService>()
+        .AsSingle();
+
+    private void BindGameQuitSaver() =>
+      Container.BindInterfacesTo<GameQuitSaver>()
         .AsSingle();
   }
 }
