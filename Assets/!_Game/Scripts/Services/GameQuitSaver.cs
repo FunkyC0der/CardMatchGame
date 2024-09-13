@@ -8,10 +8,10 @@ namespace CardMatchGame.Services
   public class GameQuitSaver : IDisposable
   {
     private readonly ISaveLoadService m_saveLoadService;
-    private readonly ProgressService m_progressService;
-    private readonly SettingsService m_settingsService;
+    private readonly IProgressService m_progressService;
+    private readonly ISettingsService m_settingsService;
 
-    public GameQuitSaver(ISaveLoadService saveLoadService, ProgressService progressService, SettingsService settingsService)
+    public GameQuitSaver(ISaveLoadService saveLoadService, IProgressService progressService, ISettingsService settingsService)
     {
       m_saveLoadService = saveLoadService;
       m_progressService = progressService;
