@@ -27,7 +27,7 @@ namespace CardMatchGame.MainMenu
 
     private void Start()
     {
-      Button.onClick.AddListener(() => m_levelsService.SetCurrentLevelData(LevelIndex));
+      Button.onClick.AddListener(() => m_levelsService.LoadLevel(LevelIndex));
       NameText.UpdateView(LevelIndex + 1);
       
       CompletedLevelData completedLevel = m_progressService.FindCompletedLevelData(LevelIndex);
