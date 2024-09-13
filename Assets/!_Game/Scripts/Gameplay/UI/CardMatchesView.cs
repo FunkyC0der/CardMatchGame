@@ -9,19 +9,19 @@ namespace CardMatchGame.Gameplay.UI
   {
     public PrintfText Text;
 
-    private MatchCardsService m_matchCardsService;
+    private WinConditionService m_winConditionService;
 
     [Inject]
-    private void Construct(MatchCardsService matchCardsService)
+    private void Construct(WinConditionService winConditionService)
     {
-      m_matchCardsService = matchCardsService;
-      m_matchCardsService.OnMatchesCountChanged += UpdateView;
+      m_winConditionService = winConditionService;
+      m_winConditionService.OnMatchesCountChanged += UpdateView;
     }
 
     private void Start() => 
       UpdateView();
 
     private void UpdateView() => 
-      Text.UpdateView(m_matchCardsService.MatchesCount, m_matchCardsService.MatchesCountToWin);
+      Text.UpdateView(m_winConditionService.MatchesCount, m_winConditionService.MatchesCountToWin);
   }
 }

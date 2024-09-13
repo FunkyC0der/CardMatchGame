@@ -1,3 +1,4 @@
+using System;
 using CardMatchGame.Gameplay.Services;
 using PrimeTween;
 using TMPro;
@@ -13,31 +14,31 @@ namespace CardMatchGame.Gameplay.UI
     public float EndTimeAnimThreshold = 5;
     public TweenSettings<Color> EndTimeAnimSettings;
 
-    private LevelProgress m_levelProgress;
+    private TimerService m_timerService;
 
     private Tween m_endTimeAnim;
 
     [Inject]
-    private void Construct(LevelProgress levelProgress)
-    {
-      m_levelProgress = levelProgress;
+    private void Construct(TimerService timerService) => 
+      m_timerService = timerService;
 
-      m_levelProgress.OnGameStart += () => enabled = true;
-      m_levelProgress.OnGameOver += StopView;
-    }
+    private void Start() => 
+      UpdateTextView();
 
     private void Update()
     {
-      Text.text = m_levelProgress.LevelTimer.TimeLeft.ToMinutesAndSeconds();
-      
-      if(m_levelProgress.LevelTimer.TimeLeft < EndTimeAnimThreshold && !m_endTimeAnim.isAlive)
-        m_endTimeAnim = Tween.Color(Text, EndTimeAnimSettings);
+      if (m_timerService.IsActive)
+      {
+        UpdateTextView();
+
+        if(m_timerService.TimeLeft < EndTimeAnimThreshold && !m_endTimeAnim.isAlive)
+          m_endTimeAnim = Tween.Color(Text, EndTimeAnimSettings);
+      }
+      else if (m_endTimeAnim.isAlive)
+        m_endTimeAnim.Complete();
     }
 
-    private void StopView()
-    {
-      enabled = false;
-      m_endTimeAnim.Complete();
-    }
+    private void UpdateTextView() => 
+      Text.text = m_timerService.TimeLeft.ToMinutesAndSeconds();
   }
 }

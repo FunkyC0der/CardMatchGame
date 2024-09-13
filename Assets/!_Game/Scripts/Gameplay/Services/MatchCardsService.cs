@@ -10,39 +10,24 @@ using Zenject;
 
 namespace CardMatchGame.Gameplay.Services
 {
-  public class MatchCardsService : MonoBehaviour, IInitializable
+  public class MatchCardsService : MonoBehaviour
   {
-    public event Action OnMatchesCountChanged;
-
     private int m_cardsToMatchCount = 2;
 
-    public int MatchesCountToWin { get; private set; }
-    public int MatchesCount { get; private set; }
-
     private ILevelInput m_levelInput;
-    private ILevelsService m_levelsService;
+    private WinConditionService m_winConditionService;
     
     private readonly List<Card> m_cardsToMatch = new();
     
     [Inject]
-    private void Construct(ILevelInput levelInput, ILevelsService levelsService)
+    private void Construct(ILevelInput levelInput, ILevelsService levelsService, WinConditionService winConditionService)
     {
       m_levelInput = levelInput;
       levelInput.OnCardSelected += SelectCard;
 
-      m_levelsService = levelsService;
-    }
+      m_cardsToMatchCount = levelsService.CurrentLevelData.CardsCountToMatch;
 
-    public void Initialize()
-    {
-      m_cardsToMatchCount = m_levelsService.CurrentLevelData.CardsCountToMatch;
-      MatchesCountToWin = m_levelsService.CurrentLevelData.MatchesCountToWin;
-    }
-
-    public void StartGame()
-    {
-      MatchesCount = 0;
-      OnMatchesCountChanged?.Invoke();
+      m_winConditionService = winConditionService;
     }
 
     public void StopMatchProcess()
@@ -98,8 +83,7 @@ namespace CardMatchGame.Gameplay.Services
 
       m_cardsToMatch.Clear();
 
-      ++MatchesCount;
-      OnMatchesCountChanged?.Invoke();
+      m_winConditionService.Match();
     }
 
     private IEnumerator PlayLongAnim(IEnumerator anim)

@@ -1,5 +1,4 @@
 using System.Collections;
-using CardMatchGame.Gameplay.Services;
 using CardMatchGame.Gameplay.UI.Utils;
 using CardMatchGame.Services.Levels;
 using PrimeTween;
@@ -22,11 +21,8 @@ namespace CardMatchGame.Gameplay.UI
     private ILevelsService m_levelsService;
     
     [Inject]
-    private void Construct(ILevelsService levelsService, LevelProgress levelProgress)
-    {
+    private void Construct(ILevelsService levelsService) => 
       m_levelsService = levelsService;
-      levelProgress.StartLevelHintView = this;
-    }
 
     public IEnumerator ShowHint()
     {

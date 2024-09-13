@@ -20,22 +20,24 @@ namespace CardMatchGame.Gameplay.UI
     public RectTransform AnimWindow;
     public TweenSettings<Vector2> ShowHideAnimSettings;
 
-    private LevelProgress m_levelProgress;
+    private TimerService m_timerService;
+    private WinConditionService m_winConditionService;
     private IProgressService m_progressService;
     private ILevelsService m_levelsService;
 
     [Inject]
-    private void Construct(LevelProgress levelProgress, IProgressService progressService, ILevelsService levelsService)
+    private void Construct(TimerService timerService,
+      WinConditionService winConditionService,
+      IProgressService progressService,
+      ILevelsService levelsService)
     {
-      m_levelProgress = levelProgress;
-      m_levelProgress.OnGameStart += Hide;
-      m_levelProgress.OnGameOver += Show;
-
+      m_timerService = timerService;
+      m_winConditionService = winConditionService;
       m_progressService = progressService;
       m_levelsService = levelsService;
     }
 
-    private void Show()
+    public void Show()
     {
       ResetElements();
       
@@ -43,20 +45,10 @@ namespace CardMatchGame.Gameplay.UI
 
       Tween.UIAnchoredPosition(AnimWindow, ShowHideAnimSettings);
       
-      if (m_levelProgress.IsLevelCompleted)
+      if (m_winConditionService.WinCondition)
         SetupLevelCompletedView();
       else
         LevelFailedText.gameObject.SetActive(true);
-    }
-
-    private void Hide()
-    {
-      if (!gameObject.activeSelf)
-        return;
-      
-      Sequence.Create()
-        .Chain(Tween.UIAnchoredPosition(AnimWindow, ShowHideAnimSettings.WithDirection(false)))
-        .ChainCallback(() => gameObject.SetActive(false));
     }
 
     private void ResetElements()
@@ -92,7 +84,7 @@ namespace CardMatchGame.Gameplay.UI
       var completedLevelData = new CompletedLevelData()
       {
         Index = m_levelsService.CurrentLevelIndex,
-        TimeRecord = m_levelProgress.LevelTimer.TimeElapsed
+        TimeRecord = m_timerService.TimeElapsed
       };
 
       m_progressService.AddCompletedLevelData(completedLevelData);
@@ -100,22 +92,22 @@ namespace CardMatchGame.Gameplay.UI
     }
 
     private bool IsNewTimeRecord(CompletedLevelData completedLevelData) => 
-      m_levelProgress.LevelTimer.TimeElapsed < completedLevelData.TimeRecord;
+      m_timerService.TimeElapsed < completedLevelData.TimeRecord;
 
     private void UpdateNewTimeRecordData(CompletedLevelData completedLevelData) => 
-      completedLevelData.TimeRecord = m_levelProgress.LevelTimer.TimeElapsed;
+      completedLevelData.TimeRecord = m_timerService.TimeElapsed;
 
     private void ShowNewTimeRecordText(CompletedLevelData completedLevelData)
     {
       NewTimeRecordText.UpdateView(completedLevelData.TimeRecord.ToMinutesAndSeconds(), 
-        m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
+        m_timerService.TimeElapsed.ToMinutesAndSeconds());
 
       NewTimeRecordText.gameObject.SetActive(true);
     }
 
     private void ShowTimeText()
     {
-      TimeText.UpdateView(m_levelProgress.LevelTimer.TimeElapsed.ToMinutesAndSeconds());
+      TimeText.UpdateView(m_timerService.TimeElapsed.ToMinutesAndSeconds());
       TimeText.gameObject.SetActive(true);
     }
   }

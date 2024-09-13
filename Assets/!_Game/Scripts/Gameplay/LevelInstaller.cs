@@ -17,6 +17,12 @@ namespace CardMatchGame.Gameplay
       Container.Bind<ILevelInput>()
         .FromInstance(levelInput)
         .AsSingle();
+
+      Container.BindInterfacesAndSelfTo<TimerService>()
+        .AsSingle();
+
+      Container.Bind<WinConditionService>()
+        .AsSingle();
       
       Container.BindInterfacesAndSelfTo<GridService>()
         .FromInstance(GridService)
@@ -26,11 +32,11 @@ namespace CardMatchGame.Gameplay
         .FromInstance(CardsService)
         .AsSingle();
       
-      Container.BindInterfacesAndSelfTo<MatchCardsService>()
+      Container.Bind<MatchCardsService>()
         .FromInstance(MatchCardsService)
         .AsSingle();
       
-      Container.BindInterfacesAndSelfTo<LevelProgress>()
+      Container.Bind<LevelProgress>()
         .FromInstance(LevelProgress)
         .AsSingle();
     }
