@@ -35,6 +35,9 @@ namespace CardMatchGame.Gameplay
       Container.Bind<MatchCardsService>()
         .FromInstance(MatchCardsService)
         .AsSingle();
+
+      Container.Bind<GameOverService>()
+        .AsSingle();
       
       Container.Bind<LevelProgress>()
         .FromInstance(LevelProgress)

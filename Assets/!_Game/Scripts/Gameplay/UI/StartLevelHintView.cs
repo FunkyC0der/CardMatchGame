@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using CardMatchGame.Gameplay.UI.Utils;
 using CardMatchGame.Services.Levels;
+using CardMatchGame.UI.Utils;
 using CardMatchGame.Utils;
 using PrimeTween;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 using Sequence = PrimeTween.Sequence;

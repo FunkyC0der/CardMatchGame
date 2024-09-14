@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace CardMatchGame.UI
+namespace CardMatchGame.UI.Utils
 {
   public class TextChangeLoopAnim : MonoBehaviour
   {

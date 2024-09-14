@@ -12,9 +12,10 @@ namespace CardMatchGame.Gameplay.Services
     private CardsService m_cardsService;
     private ILevelInput m_levelInput;
     private MatchCardsService m_matchCardsService;
-    private TimerService m_timerService;
-    private WinConditionService m_winConditionService;
+    private TimerService m_timer;
+    private WinConditionService m_winCondition;
     private UIFactory m_uiFactory;
+    private GameOverService m_gameOverService;
 
     [Inject]
     private void Construct(CardsService cardsService,
@@ -22,14 +23,16 @@ namespace CardMatchGame.Gameplay.Services
       MatchCardsService matchCardsService,
       TimerService timerService,
       WinConditionService winConditionService,
-      UIFactory uiFactory)
+      UIFactory uiFactory,
+      GameOverService gameOverService)
     {
       m_cardsService = cardsService;
       m_levelInput = levelInput;
       m_matchCardsService = matchCardsService;
-      m_timerService = timerService;
-      m_winConditionService = winConditionService;
+      m_timer = timerService;
+      m_winCondition = winConditionService;
       m_uiFactory = uiFactory;
+      m_gameOverService = gameOverService;
     }
 
     private IEnumerator Start()
@@ -57,13 +60,13 @@ namespace CardMatchGame.Gameplay.Services
       yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
       
-      m_timerService.Activate();
+      m_timer.Activate();
       m_levelInput.SetEnabled(true);
     }
 
     private IEnumerator WaitGameOverCondition()
     {
-      while (!m_timerService.IsFinished && !m_winConditionService.WinCondition)
+      while (!m_timer.IsFinished && !m_winCondition.Achieved)
         yield return null;
     }
 
@@ -71,9 +74,9 @@ namespace CardMatchGame.Gameplay.Services
     {
       m_levelInput.SetEnabled(false);
       m_matchCardsService.StopMatchProcess();
-      m_timerService.Stop();
+      m_timer.Stop();
 
-      m_uiFactory.CreateWindow(WindowType.GameOverPopUp);
+      m_gameOverService.GameOver();
     }
   }
 }

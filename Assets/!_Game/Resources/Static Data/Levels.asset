@@ -16,7 +16,7 @@ MonoBehaviour:
   - GridSize: {x: 2, y: 2}
     CardsCountToMatch: 2
     ShowCardsDuration: 1
-    TimerDuration: 5
+    TimerDuration: 15
   - GridSize: {x: 2, y: 3}
     CardsCountToMatch: 2
     ShowCardsDuration: 2

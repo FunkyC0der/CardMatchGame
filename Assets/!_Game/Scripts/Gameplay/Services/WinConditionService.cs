@@ -10,7 +10,7 @@ namespace CardMatchGame.Gameplay.Services
     public int MatchesCountToWin { get; }
     public int MatchesCount { get; private set; }
 
-    public bool WinCondition => MatchesCount >= MatchesCountToWin;
+    public bool Achieved => MatchesCount >= MatchesCountToWin;
 
     private WinConditionService(ILevelsService levelsService)
     {

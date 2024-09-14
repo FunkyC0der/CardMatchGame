@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace CardMatchGame.Gameplay.UI.Utils
+namespace CardMatchGame.UI.Utils
 {
   [RequireComponent(typeof(TextMeshProUGUI))]
   public class PrintfText : MonoBehaviour

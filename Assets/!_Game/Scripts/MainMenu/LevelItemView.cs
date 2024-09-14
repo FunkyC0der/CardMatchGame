@@ -1,6 +1,6 @@
-using CardMatchGame.Gameplay.UI.Utils;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
+using CardMatchGame.UI.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

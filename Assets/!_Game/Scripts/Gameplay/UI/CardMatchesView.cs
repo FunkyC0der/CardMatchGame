@@ -1,5 +1,5 @@
 using CardMatchGame.Gameplay.Services;
-using CardMatchGame.Gameplay.UI.Utils;
+using CardMatchGame.UI.Utils;
 using UnityEngine;
 using Zenject;
 

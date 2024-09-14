@@ -9,7 +9,9 @@ namespace CardMatchGame.Services.UI
   {
     MainMenu,
     HintPopUp,
-    GameOverPopUp
+    GameOverLosePopUp,
+    GameOverWinPopUp,
+    GameOverWinTimeRecordPopUp
   }
   
   public class UIFactory
