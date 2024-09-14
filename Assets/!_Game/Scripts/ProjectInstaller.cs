@@ -6,6 +6,7 @@ using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.Serialization;
 using CardMatchGame.Services.Settings;
+using CardMatchGame.Services.UI;
 using UnityEngine;
 using Zenject;
 
@@ -24,6 +25,7 @@ namespace CardMatchGame
       BindLoadingCurtain();
       BindCoroutineRunner();
       BindAssetsService();
+      BindUIFactory();
       BindSceneLoader();
       BindSerializer();
       BindSaveLoadService();
@@ -47,6 +49,11 @@ namespace CardMatchGame
       Container.Bind<IAssetsService>()
         .To<AssetsService>()
         .AsSingle();
+
+    private void BindUIFactory() =>
+      Container.Bind<UIFactory>()
+        .AsSingle()
+        .MoveIntoDirectSubContainers();
 
     private void BindSceneLoader() => 
       Container.Bind<SceneLoader>()

@@ -37,26 +37,14 @@ namespace CardMatchGame.Gameplay.UI
       m_levelsService = levelsService;
     }
 
-    public void Show()
+    public void Start()
     {
-      ResetElements();
-      
-      gameObject.SetActive(true);
-
       Tween.UIAnchoredPosition(AnimWindow, ShowHideAnimSettings);
       
       if (m_winConditionService.WinCondition)
         SetupLevelCompletedView();
       else
         LevelFailedText.gameObject.SetActive(true);
-    }
-
-    private void ResetElements()
-    {
-      LevelCompletedText.gameObject.SetActive(false);
-      LevelFailedText.gameObject.SetActive(false);
-      NewTimeRecordText.gameObject.SetActive(false);
-      TimeText.gameObject.SetActive(false);
     }
 
     private void SetupLevelCompletedView()

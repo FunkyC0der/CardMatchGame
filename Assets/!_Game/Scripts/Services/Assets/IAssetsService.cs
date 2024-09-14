@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using CardMatchGame.Services.Levels;
+using CardMatchGame.Services.UI;
+using UnityEngine;
 
 namespace CardMatchGame.Services.Assets
 {
@@ -6,5 +9,6 @@ namespace CardMatchGame.Services.Assets
   {
     void Load();
     LevelsData LevelsData();
+    UIAssetsData UIAssetsData();
   }
 }

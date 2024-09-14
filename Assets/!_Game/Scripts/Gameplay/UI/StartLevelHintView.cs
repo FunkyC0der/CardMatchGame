@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using CardMatchGame.Gameplay.UI.Utils;
 using CardMatchGame.Services.Levels;
+using CardMatchGame.Utils;
 using PrimeTween;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
+using Sequence = PrimeTween.Sequence;
 
 namespace CardMatchGame.Gameplay.UI
 {
-  public class StartLevelHintView : MonoBehaviour
+  public class StartLevelHintView : MonoBehaviour, IPayloaded<CoroutineWait>
   {
     public PrintfText HintText;
     
@@ -18,24 +22,28 @@ namespace CardMatchGame.Gameplay.UI
     public TweenSettings<Vector2> ShowPositionAnimSettings;
     public TweenSettings<float> ShowAlphaAnimSettings;
 
+    private CoroutineWait m_wait;
+
     private ILevelsService m_levelsService;
     
     [Inject]
     private void Construct(ILevelsService levelsService) => 
       m_levelsService = levelsService;
 
-    public IEnumerator ShowHint()
+    public void Payload(CoroutineWait wait) => 
+      m_wait = wait;
+
+    private void Start()
     {
-      gameObject.SetActive(true);
       HintText.UpdateView(m_levelsService.CurrentLevelData.CardsCountToMatch);
-      
-      return Sequence.Create()
+
+      Sequence.Create()
         .Chain(Tween.UIAnchoredPosition(AnimWindow, ShowPositionAnimSettings))
         .Group(Tween.Alpha(AnimCanvasGroup, ShowAlphaAnimSettings))
         .ChainDelay(ShowDuration)
         .Chain(Tween.Alpha(AnimCanvasGroup, ShowAlphaAnimSettings.WithDirection(false)))
         .ChainCallback(() => gameObject.SetActive(false))
-        .ToYieldInstruction();
+        .OnComplete(() => m_wait.WaitDone());
     }
   }
 }
