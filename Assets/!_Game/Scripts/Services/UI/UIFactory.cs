@@ -37,7 +37,7 @@ namespace CardMatchGame.Services.UI
     public GameObject CreateWindow<TPayload>(WindowType type, TPayload payload)
     {
       GameObject window = CreateWindow(type);
-      window.GetComponentInChildren<IPayloaded<TPayload>>().Payload(payload);
+      window.GetComponent<IPayloaded<TPayload>>().Payload(payload);
       return window;
     }
 
