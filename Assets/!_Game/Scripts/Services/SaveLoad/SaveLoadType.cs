@@ -1,6 +1,6 @@
 namespace CardMatchGame.Services.SaveLoad
 {
-  public enum ESaveLoadType
+  public enum SaveLoadType
   {
     PlayerPrefs,
     File

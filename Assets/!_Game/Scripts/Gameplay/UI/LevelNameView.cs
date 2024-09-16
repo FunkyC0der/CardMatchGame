@@ -9,13 +9,13 @@ namespace CardMatchGame.Gameplay.UI
   {
     public PrintfText Text;
 
-    private ILevelsService m_levelsService;
+    private ICurrentLevelDataProvider m_currentLevelData;
 
     [Inject]
-    private void Construct(ILevelsService levelsService) => 
-      m_levelsService = levelsService;
+    private void Construct(ICurrentLevelDataProvider currentLevelData) => 
+      m_currentLevelData = currentLevelData;
 
     private void Start() => 
-      Text.UpdateView(m_levelsService.CurrentLevelIndex + 1);
+      Text.UpdateView(m_currentLevelData.Index + 1);
   }
 }

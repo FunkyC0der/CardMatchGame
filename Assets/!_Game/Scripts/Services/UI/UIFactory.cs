@@ -1,4 +1,3 @@
-using CardMatchGame.MainMenu;
 using CardMatchGame.Services.Assets;
 using CardMatchGame.Utils;
 using UnityEngine;
@@ -28,18 +27,14 @@ namespace CardMatchGame.Services.UI
       m_uiAssets = assets.UIAssetsData();
     }
 
-    public GameObject CreateWindow(WindowType type)
+    public GameObject Create(GameObject prefab, Transform parent = null)
     {
-      GameObject window = Object.Instantiate(m_uiAssets.GetWindowPrefab(type), UIRoot());
-      m_diContainer.InjectGameObject(window);
-      return window;
-    }
+      if (parent == null)
+        parent = UIRoot();
 
-    public GameObject CreateWindow<TPayload>(WindowType type, TPayload payload)
-    {
-      GameObject window = CreateWindow(type);
-      window.GetComponent<IPayloaded<TPayload>>().Payload(payload);
-      return window;
+      GameObject gameObject = Object.Instantiate(prefab, parent);
+      m_diContainer.InjectGameObject(gameObject);
+      return gameObject;
     }
 
     public T Create<T>(T prefab, Transform parent = null) where T : MonoBehaviour
@@ -51,6 +46,19 @@ namespace CardMatchGame.Services.UI
       m_diContainer.InjectGameObject(element.gameObject);
       return element;
     }
+
+    public GameObject CreateWindow(WindowType type) => 
+      Create(m_uiAssets.GetWindowPrefab(type));
+
+    public GameObject CreateWindow<TPayload>(WindowType type, TPayload payload)
+    {
+      GameObject window = CreateWindow(type);
+      window.GetComponent<IPayloaded<TPayload>>().Payload(payload);
+      return window;
+    }
+
+    public GameObject CreateLevelHUD() =>
+      Create(m_uiAssets.LevelHUDPrefab);
 
     private Transform UIRoot()
     {

@@ -12,9 +12,9 @@ namespace CardMatchGame.Gameplay.Services
 
     public bool Achieved => MatchesCount >= MatchesCountToWin;
 
-    private WinConditionService(ILevelsService levelsService)
+    private WinConditionService(ICurrentLevelDataProvider currentLevelData)
     {
-      MatchesCountToWin = levelsService.CurrentLevelData.MatchesCountToWin;
+      MatchesCountToWin = currentLevelData.Data.MatchesCountToWin;
       MatchesCount = 0;
     }
 

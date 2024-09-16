@@ -19,12 +19,12 @@ namespace CardMatchGame.Gameplay.Services
     private readonly List<Card> m_cardsToMatch = new();
     
     [Inject]
-    private void Construct(ILevelInput levelInput, ILevelsService levelsService, WinConditionService winConditionService)
+    private void Construct(ILevelInput levelInput, ICurrentLevelDataProvider currentLevelData, WinConditionService winConditionService)
     {
       m_levelInput = levelInput;
       levelInput.OnCardSelected += SelectCard;
 
-      m_cardsToMatchCount = levelsService.CurrentLevelData.CardsCountToMatch;
+      m_cardsToMatchCount = currentLevelData.Data.CardsCountToMatch;
 
       m_winConditionService = winConditionService;
     }

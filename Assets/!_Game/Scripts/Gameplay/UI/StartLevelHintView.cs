@@ -21,18 +21,18 @@ namespace CardMatchGame.Gameplay.UI
 
     private CoroutineWait m_wait;
 
-    private ILevelsService m_levelsService;
+    private ICurrentLevelDataProvider m_currentLevelData;
     
     [Inject]
-    private void Construct(ILevelsService levelsService) => 
-      m_levelsService = levelsService;
+    private void Construct(ICurrentLevelDataProvider currentLevelData) => 
+      m_currentLevelData = currentLevelData;
 
     public void Payload(CoroutineWait wait) => 
       m_wait = wait;
 
     private void Start()
     {
-      HintText.UpdateView(m_levelsService.CurrentLevelData.CardsCountToMatch);
+      HintText.UpdateView(m_currentLevelData.Data.CardsCountToMatch);
 
       Sequence.Create()
         .Chain(Tween.UIAnchoredPosition(AnimWindow, ShowPositionAnimSettings))

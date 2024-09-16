@@ -1,9 +1,12 @@
 using CardMatchGame.Services;
 using CardMatchGame.Services.Assets;
 using CardMatchGame.Services.Coroutines;
+using CardMatchGame.Services.GameStates;
+using CardMatchGame.Services.GameStates.States;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
+using CardMatchGame.Services.Scenes;
 using CardMatchGame.Services.Serialization;
 using CardMatchGame.Services.Settings;
 using CardMatchGame.Services.UI;
@@ -22,6 +25,7 @@ namespace CardMatchGame
 
     public override void InstallBindings()
     {
+      BindGameStateMachine();
       BindLoadingCurtain();
       BindCoroutineRunner();
       BindAssetsService();
@@ -34,6 +38,21 @@ namespace CardMatchGame
       BindLevelsService();
       BindBootService();
       BindGameQuitSaver();
+      BindGameStates();
+    }
+
+    private void BindGameStateMachine()
+    {
+      Container.Bind<GameStateMachine>()
+        .AsSingle();
+
+      Container.Bind<GameStateFactory>()
+        .AsSingle()
+        .CopyIntoAllSubContainers();
+
+      Container.Bind<GameStateChanger>()
+        .AsSingle()
+        .CopyIntoAllSubContainers();
     }
 
     private void BindLoadingCurtain() => 
@@ -53,7 +72,7 @@ namespace CardMatchGame
     private void BindUIFactory() =>
       Container.Bind<UIFactory>()
         .AsSingle()
-        .MoveIntoDirectSubContainers();
+        .CopyIntoAllSubContainers();
 
     private void BindSceneLoader() => 
       Container.Bind<SceneLoader>()
@@ -63,13 +82,13 @@ namespace CardMatchGame
     {
       switch (ProjectConfig.SerializerType)
       {
-        case ESerializerType.Json:
+        case SerializerType.Json:
           Container.Bind<ISerializer>()
             .To<JsonSerializer>()
             .AsSingle();
           break;
         
-        case ESerializerType.Base64:
+        case SerializerType.Base64:
           Container.Bind<ISerializer>()
             .To<Base64Serializer>()
             .AsSingle();
@@ -81,13 +100,13 @@ namespace CardMatchGame
     {
       switch (ProjectConfig.SaveLoadType)
       {
-        case ESaveLoadType.PlayerPrefs:
+        case SaveLoadType.PlayerPrefs:
           Container.Bind<ISaveLoadService>()
             .To<PlayerPrefsSaveLoadService>()
             .AsSingle();
           break;
         
-        case ESaveLoadType.File:
+        case SaveLoadType.File:
           Container.Bind<ISaveLoadService>()
             .To<FileSaveLoadService>()
             .AsSingle();
@@ -106,8 +125,8 @@ namespace CardMatchGame
         .AsSingle();
 
     private void BindLevelsService() =>
-      Container.Bind<ILevelsService>()
-        .To<LevelsService>()
+      Container.Bind<ICurrentLevelDataProvider>()
+        .To<CurrentLevelDataProvider>()
         .AsSingle();
 
     private void BindBootService() =>
@@ -117,5 +136,12 @@ namespace CardMatchGame
     private void BindGameQuitSaver() =>
       Container.BindInterfacesTo<GameQuitSaver>()
         .AsSingle();
+
+    private void BindGameStates()
+    {
+      Container.Bind<BootGameState>().AsTransient();
+      Container.Bind<MainMenuGameState>().AsTransient();
+      Container.Bind<LoadLevelGameState>().AsTransient();
+    }
   }
 }

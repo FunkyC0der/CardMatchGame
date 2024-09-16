@@ -10,6 +10,7 @@ namespace CardMatchGame.Services.UI
   {
     public GameObject UIRootPrefab;
     public LevelItemView LevelItemPrefab;
+    public GameObject LevelHUDPrefab;
 
     [Space]
     [SerializeField]

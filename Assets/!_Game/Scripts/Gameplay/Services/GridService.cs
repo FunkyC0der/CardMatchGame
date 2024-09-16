@@ -9,19 +9,19 @@ namespace CardMatchGame.Gameplay.Services
     public Vector2Int Size;
     public Vector2 CellSize;
 
-    private ILevelsService m_levelsService;
+    private ICurrentLevelDataProvider m_currentLevelData;
     
     private Vector3 m_origin;
 
     [Inject]
-    private void Construct(ILevelsService levelsService) =>
-      m_levelsService = levelsService;
+    private void Construct(ICurrentLevelDataProvider currentLevelData) =>
+      m_currentLevelData = currentLevelData;
 
     public int CellsCount => Size.x * Size.y;
 
     public void Initialize()
     {
-      Size = m_levelsService.CurrentLevelData.GridSize;
+      Size = m_currentLevelData.Data.GridSize;
       m_origin = ComputeOrigin();
     }
 

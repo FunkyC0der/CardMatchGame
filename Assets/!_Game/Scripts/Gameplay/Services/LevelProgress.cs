@@ -46,6 +46,8 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator EnterGameLoop()
     {
+      m_uiFactory.CreateLevelHUD();
+      
       m_levelInput.SetEnabled(false);
 
       yield return m_cardsService.FlipAllCardsToBack()

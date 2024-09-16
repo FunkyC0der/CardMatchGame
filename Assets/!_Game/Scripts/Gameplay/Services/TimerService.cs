@@ -14,8 +14,8 @@ namespace CardMatchGame.Gameplay.Services
     
     private readonly Cooldown m_timer = new();
     
-    private TimerService(ILevelsService levelsService) =>
-      m_timer.Activate(levelsService.CurrentLevelData.TimerDuration);
+    private TimerService(ICurrentLevelDataProvider currentLevelData) =>
+      m_timer.Activate(currentLevelData.Data.TimerDuration);
 
     public void Activate() => 
       IsActive = true;

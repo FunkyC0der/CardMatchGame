@@ -7,7 +7,7 @@ namespace CardMatchGame
   [CreateAssetMenu(fileName = "ProjectConfig", menuName = "Game/ProjectConfig")]
   public class ProjectConfig : ScriptableObject
   {
-    public ESerializerType SerializerType;
-    public ESaveLoadType SaveLoadType;
+    public SerializerType SerializerType;
+    public SaveLoadType SaveLoadType;
   }
 }

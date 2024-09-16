@@ -14,21 +14,21 @@ namespace CardMatchGame.Gameplay.Services
     public Card CardPrefab;
 
     private GridService m_grid;
-    private ILevelsService m_levelsService;
+    private ICurrentLevelDataProvider m_currentLevelData;
 
     private readonly List<Card> m_cards = new();
     private List<CardDesc> m_cardDescs = new();
     
     [Inject]
-    private void Construct(GridService grid, ILevelsService levelsService)
+    private void Construct(GridService grid, ICurrentLevelDataProvider currentLevelData)
     {
       m_grid = grid;
-      m_levelsService = levelsService;
+      m_currentLevelData = currentLevelData;
     }
 
     public void Initialize()
     {
-      int cardsCountToMatch = m_levelsService.CurrentLevelData.CardsCountToMatch;
+      int cardsCountToMatch = m_currentLevelData.Data.CardsCountToMatch;
       int cardsCount = m_grid.CellsCount;
       
       m_cardDescs = CardsBank.SelectRandomCards(cardsCount / cardsCountToMatch);
@@ -49,7 +49,7 @@ namespace CardMatchGame.Gameplay.Services
       Card[] cardsToShow = m_cards.Where(card => !card.IsFrontSide).ToArray();
       
       return FlipCards(cardsToShow, toFront: true)
-        .ChainDelay(m_levelsService.CurrentLevelData.ShowCardsDuration)
+        .ChainDelay(m_currentLevelData.Data.ShowCardsDuration)
         .Chain(FlipCards(cardsToShow, toFront: false));
     }
 

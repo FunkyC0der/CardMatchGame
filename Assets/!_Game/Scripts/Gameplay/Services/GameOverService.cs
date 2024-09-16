@@ -11,19 +11,19 @@ namespace CardMatchGame.Gameplay.Services
     private readonly TimerService m_timer;
     private readonly UIFactory m_uiFactory;
     private readonly IProgressService m_progressService;
-    private readonly ILevelsService m_levelsService;
+    private readonly ICurrentLevelDataProvider m_currentLevelData;
     private readonly ISaveLoadService m_saveLoadService;
 
     public GameOverService(TimerService timer, 
       UIFactory uiFactory,
       IProgressService progressService,
-      ILevelsService levelsService, 
+      ICurrentLevelDataProvider currentLevelData, 
       ISaveLoadService saveLoadService)
     {
       m_timer = timer;
       m_uiFactory = uiFactory;
       m_progressService = progressService;
-      m_levelsService = levelsService;
+      m_currentLevelData = currentLevelData;
       m_saveLoadService = saveLoadService;
     }
 
@@ -54,13 +54,13 @@ namespace CardMatchGame.Gameplay.Services
     }
 
     private CompletedLevelData FindCompletedLevelData() =>
-      m_progressService.FindCompletedLevelData(m_levelsService.CurrentLevelIndex);
+      m_progressService.FindCompletedLevelData(m_currentLevelData.Index);
 
     private CompletedLevelData AddNewCompletedLevelData()
     {
       var completedLevelData = new CompletedLevelData()
       {
-        Index = m_levelsService.CurrentLevelIndex,
+        Index = m_currentLevelData.Index,
         TimeRecord = m_timer.TimeElapsed
       };
 

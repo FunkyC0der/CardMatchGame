@@ -1,6 +1,6 @@
 namespace CardMatchGame.Services.Serialization
 {
-  public enum ESerializerType
+  public enum SerializerType
   {
     Json,
     Base64

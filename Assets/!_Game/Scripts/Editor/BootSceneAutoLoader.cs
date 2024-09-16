@@ -1,4 +1,5 @@
-using CardMatchGame.Services;
+using CardMatchGame.Services.GameStates.States;
+using CardMatchGame.Services.Scenes;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -22,15 +23,15 @@ namespace CardMatchGame.Editor
       UpdateFirstScene(scene);
     
     private static void UpdateFirstScene(Scene scene) =>
-      BootService.FirstScene = scene.name is "Boot" or "MainMenu" ? EScene.MainMenu : EScene.Level;
+      BootGameState.FirstSceneName = scene.name == SceneNames.Boot ? SceneNames.MainMenu : scene.name;
 
     static void SetBootAsStartScene() 
     {
       SceneAsset bootSceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorBuildSettings.scenes[0].path);
 
-      if (bootSceneAsset.name != "Boot")
+      if (bootSceneAsset.name != SceneNames.Boot)
       {
-        Debug.LogError("First scene in the build settings must be Boot");
+        Debug.LogError($"First scene in the build settings must be ${SceneNames.Boot}");
         EditorSceneManager.playModeStartScene = default;
       }
       
