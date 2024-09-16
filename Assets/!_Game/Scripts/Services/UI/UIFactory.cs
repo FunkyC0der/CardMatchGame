@@ -42,8 +42,11 @@ namespace CardMatchGame.Services.UI
       return window;
     }
 
-    public T Create<T>(T prefab, Transform parent) where T : MonoBehaviour
+    public T Create<T>(T prefab, Transform parent = null) where T : MonoBehaviour
     {
+      if (parent == null)
+        parent = UIRoot();
+      
       T element = Object.Instantiate(prefab, parent);
       m_diContainer.InjectGameObject(element.gameObject);
       return element;
