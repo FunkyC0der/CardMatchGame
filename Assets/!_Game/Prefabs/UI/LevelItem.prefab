@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1809417528863271102}
   - component: {fileID: 4320066701679492489}
-  - component: {fileID: 6195646179805280072}
   - component: {fileID: 6294353659793741864}
   - component: {fileID: 393301036368201341}
   - component: {fileID: 8471966898391531843}
@@ -57,19 +56,6 @@ MonoBehaviour:
   Button: {fileID: 8471966898391531843}
   NameText: {fileID: 1688646031027291498}
   CompletedColor: {r: 0.7372549, g: 1, b: 0.38039216, a: 1}
---- !u!114 &6195646179805280072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6011399690667597785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!222 &6294353659793741864
 CanvasRenderer:
   m_ObjectHideFlags: 0

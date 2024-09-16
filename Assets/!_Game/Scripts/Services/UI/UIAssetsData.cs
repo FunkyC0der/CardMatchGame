@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CardMatchGame.MainMenu;
 using UnityEngine;
 
 namespace CardMatchGame.Services.UI
@@ -8,12 +9,14 @@ namespace CardMatchGame.Services.UI
   public class UIAssetsData : ScriptableObject
   {
     public GameObject UIRootPrefab;
-    
+    public LevelItemView LevelItemPrefab;
+
+    [Space]
     [SerializeField]
     private WindowData[] m_windows;
 
     private readonly Dictionary<WindowType, GameObject> m_windowsDictionary = new();
-    
+
     public void Init()
     {
       foreach (WindowData window in m_windows) 

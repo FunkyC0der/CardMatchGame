@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UIAssets
   m_EditorClassIdentifier: 
   UIRootPrefab: {fileID: 6238982783211337524, guid: 282bb8f9999c540f8afae8518b516523, type: 3}
+  LevelItemPrefab: {fileID: 4320066701679492489, guid: b635e8b578bf747cbaf57116108df9f8, type: 3}
   m_windows:
   - Type: 1
     Prefab: {fileID: 3707766323528380374, guid: 9b8f04c08e0cc4637af9594704781a12, type: 3}

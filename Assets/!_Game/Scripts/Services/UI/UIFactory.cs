@@ -1,3 +1,4 @@
+using CardMatchGame.MainMenu;
 using CardMatchGame.Services.Assets;
 using CardMatchGame.Utils;
 using UnityEngine;
@@ -39,6 +40,13 @@ namespace CardMatchGame.Services.UI
       GameObject window = CreateWindow(type);
       window.GetComponent<IPayloaded<TPayload>>().Payload(payload);
       return window;
+    }
+
+    public T Create<T>(T prefab, Transform parent) where T : MonoBehaviour
+    {
+      T element = Object.Instantiate(prefab, parent);
+      m_diContainer.InjectGameObject(element.gameObject);
+      return element;
     }
 
     private Transform UIRoot()
