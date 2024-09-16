@@ -6,7 +6,7 @@ namespace CardMatchGame.Services.GameStates.States
   public class MainMenuGameState : GameState
   {
     private readonly SceneLoader m_sceneLoader;
-    private LoadingCurtain m_loadingCurtain;
+    private readonly LoadingCurtain m_loadingCurtain;
     private readonly UIFactory m_uiFactory;
 
     public MainMenuGameState(SceneLoader sceneLoader, UIFactory uiFactory, LoadingCurtain loadingCurtain)
