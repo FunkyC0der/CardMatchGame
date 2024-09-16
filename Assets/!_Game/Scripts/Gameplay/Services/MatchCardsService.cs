@@ -87,9 +87,9 @@ namespace CardMatchGame.Gameplay.Services
 
     private IEnumerator PlayLongAnim(IEnumerator anim)
     {
-      m_levelInput.SetEnabled(false);
+      m_levelInput.Enabled = false;
       yield return anim;
-      m_levelInput.SetEnabled(true);
+      m_levelInput.Enabled = true;
     }
   }
 }

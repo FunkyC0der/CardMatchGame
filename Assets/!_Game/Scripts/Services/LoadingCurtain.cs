@@ -21,7 +21,10 @@ namespace CardMatchGame.Services
 
     public void Hide()
     {
-       m_hideAnim = Tween.Alpha(CanvasGroup, HideAlphaAnimSettings)
+      if (!gameObject.activeSelf)
+        return;
+      
+      m_hideAnim = Tween.Alpha(CanvasGroup, HideAlphaAnimSettings)
         .OnComplete(() => gameObject.SetActive(false));
     }
   }

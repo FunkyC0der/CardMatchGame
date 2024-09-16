@@ -1,4 +1,5 @@
 using CardMatchGame.Gameplay.Services;
+using CardMatchGame.Gameplay.Services.GameStates;
 using CardMatchGame.Gameplay.Services.Input;
 using Zenject;
 
@@ -6,42 +7,59 @@ namespace CardMatchGame.Gameplay
 {
   public class LevelInstaller : MonoInstaller
   {
-    public LevelInput levelInput;
     public GridService GridService;
     public CardsService CardsService;
     public MatchCardsService MatchCardsService;
-    public LevelProgress LevelProgress;
-    
+
     public override void InstallBindings()
     {
-      Container.Bind<ILevelInput>()
-        .FromInstance(levelInput)
+      BindLevelInput();
+      BindGridService();
+      BindTimerService();
+      BindWinConditionService();
+      BindCardServices();
+
+      BindGameStates();
+      BindLevelBootService();
+    }
+
+    private void BindLevelInput() =>
+      Container.BindInterfacesTo<LevelInput>()
         .AsSingle();
 
-      Container.BindInterfacesAndSelfTo<TimerService>()
-        .AsSingle();
-
-      Container.Bind<WinConditionService>()
-        .AsSingle();
-      
+    private void BindGridService() =>
       Container.BindInterfacesAndSelfTo<GridService>()
         .FromInstance(GridService)
         .AsSingle();
-      
+
+    private void BindTimerService() =>
+      Container.BindInterfacesAndSelfTo<TimerService>()
+        .AsSingle();
+
+    private void BindWinConditionService() =>
+      Container.Bind<WinConditionService>()
+        .AsSingle();
+
+    private void BindCardServices()
+    {
       Container.BindInterfacesAndSelfTo<CardsService>()
         .FromInstance(CardsService)
         .AsSingle();
-      
+
       Container.Bind<MatchCardsService>()
         .FromInstance(MatchCardsService)
         .AsSingle();
-
-      Container.Bind<GameOverService>()
-        .AsSingle();
-      
-      Container.Bind<LevelProgress>()
-        .FromInstance(LevelProgress)
-        .AsSingle();
     }
+
+    private void BindGameStates()
+    {
+      Container.Bind<LevelStartGameState>().AsTransient();
+      Container.Bind<LevelLoopGameState>().AsTransient();
+      Container.Bind<LevelOverGameState>().AsTransient();
+    }
+
+    private void BindLevelBootService() => 
+      Container.BindInterfacesTo<LevelBootService>()
+        .AsSingle();
   }
 }

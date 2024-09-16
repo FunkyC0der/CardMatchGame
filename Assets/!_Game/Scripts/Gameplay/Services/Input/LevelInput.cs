@@ -1,23 +1,28 @@
 using System;
 using CardMatchGame.Gameplay.Cards;
 using UnityEngine;
+using Zenject;
 
 namespace CardMatchGame.Gameplay.Services.Input
 {
-  public class LevelInput : MonoBehaviour, ILevelInput
+  public class LevelInput : ILevelInput, ITickable
   {
     public event Action<bool> OnEnabledChanged;
     public event Action<Card> OnCardSelected;
 
-    public bool IsEnabled => enabled;
+    private bool m_enabled;
 
-    public void SetEnabled(bool value)
+    public bool Enabled
     {
-      enabled = value;
-      OnEnabledChanged?.Invoke(value);
+      get => m_enabled;
+      set
+      {
+        m_enabled = value;
+        OnEnabledChanged?.Invoke(value);
+      }
     }
 
-    private void Update()
+    public void Tick()
     {
       if (!UnityEngine.Input.GetMouseButtonDown(0))
         return;

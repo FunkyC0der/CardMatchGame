@@ -1,33 +1,34 @@
 using CardMatchGame.Gameplay.Utils;
+using CardMatchGame.Services.GameStates;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.UI;
 
-namespace CardMatchGame.Gameplay.Services
+namespace CardMatchGame.Gameplay.Services.GameStates
 {
-  public class GameOverService
+  public class LevelOverGameState : GameState
   {
     private readonly TimerService m_timer;
     private readonly UIFactory m_uiFactory;
     private readonly IProgressService m_progressService;
-    private readonly ICurrentLevelDataProvider m_currentLevelData;
     private readonly ISaveLoadService m_saveLoadService;
+    private readonly ICurrentLevelDataProvider m_currentLevelData;
 
-    public GameOverService(TimerService timer, 
+    public LevelOverGameState(TimerService timer,
       UIFactory uiFactory,
       IProgressService progressService,
-      ICurrentLevelDataProvider currentLevelData, 
-      ISaveLoadService saveLoadService)
+      ISaveLoadService saveLoadService, 
+      ICurrentLevelDataProvider currentLevelData)
     {
       m_timer = timer;
       m_uiFactory = uiFactory;
       m_progressService = progressService;
-      m_currentLevelData = currentLevelData;
       m_saveLoadService = saveLoadService;
+      m_currentLevelData = currentLevelData;
     }
 
-    public void GameOver()
+    public override void Enter()
     {
       if (m_timer.IsFinished)
       {
@@ -52,7 +53,7 @@ namespace CardMatchGame.Gameplay.Services
 
       m_saveLoadService.Save(m_progressService.Progress);
     }
-
+    
     private CompletedLevelData FindCompletedLevelData() =>
       m_progressService.FindCompletedLevelData(m_currentLevelData.Index);
 

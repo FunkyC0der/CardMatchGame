@@ -17,7 +17,7 @@ namespace CardMatchGame.Gameplay.Services
     private TimerService(ICurrentLevelDataProvider currentLevelData) =>
       m_timer.Activate(currentLevelData.Data.TimerDuration);
 
-    public void Activate() => 
+    public void Start() => 
       IsActive = true;
 
     public void Stop() =>

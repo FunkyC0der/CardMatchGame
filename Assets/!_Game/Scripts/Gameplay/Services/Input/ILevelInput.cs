@@ -8,8 +8,6 @@ namespace CardMatchGame.Gameplay.Services.Input
     event Action<bool> OnEnabledChanged;
     event Action<Card> OnCardSelected;
     
-    bool IsEnabled { get; }
-
-    void SetEnabled(bool value);
+    bool Enabled { get; set; }
   }
 }

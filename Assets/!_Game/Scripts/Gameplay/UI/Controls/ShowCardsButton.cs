@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace CardMatchGame.Gameplay.UI
+namespace CardMatchGame.Gameplay.UI.Controls
 {
   public class ShowCardsButton : MonoBehaviour
   {
@@ -25,12 +25,12 @@ namespace CardMatchGame.Gameplay.UI
 
     private IEnumerator ShowCards()
     {
-      m_levelInput.SetEnabled(false);
+      m_levelInput.Enabled = false;
       
       yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
       
-      m_levelInput.SetEnabled(true);
+      m_levelInput.Enabled = true;
     }
   }
 }
