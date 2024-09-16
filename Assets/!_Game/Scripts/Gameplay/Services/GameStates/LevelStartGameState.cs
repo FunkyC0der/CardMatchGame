@@ -1,5 +1,5 @@
 using System.Collections;
-using CardMatchGame.Gameplay.Services.Input;
+using CardMatchGame.Gameplay.UI.Controls;
 using CardMatchGame.Services;
 using CardMatchGame.Services.Coroutines;
 using CardMatchGame.Services.GameStates;
@@ -15,7 +15,6 @@ namespace CardMatchGame.Gameplay.Services.GameStates
 
     private readonly ICoroutineRunner m_coroutineRunner;
     private readonly UIFactory m_uiFactory;
-    private readonly ILevelInput m_levelInput;
     private readonly CardsService m_cardsService;
     private readonly GameStateChanger m_gameStateChanger;
     private readonly LoadingCurtain m_loadingCurtain;
@@ -23,14 +22,12 @@ namespace CardMatchGame.Gameplay.Services.GameStates
     public LevelStartGameState(LoadingCurtain loadingCurtain,
       ICoroutineRunner coroutineRunner,
       UIFactory uiFactory,
-      ILevelInput levelInput,
       CardsService cardsService,
       GameStateChanger gameStateChanger)
     {
       m_loadingCurtain = loadingCurtain;
       m_coroutineRunner = coroutineRunner;
       m_uiFactory = uiFactory;
-      m_levelInput = levelInput;
       m_cardsService = cardsService;
       m_gameStateChanger = gameStateChanger;
     }
@@ -46,28 +43,33 @@ namespace CardMatchGame.Gameplay.Services.GameStates
 
     private IEnumerator EnterCoroutine()
     {
-      m_loadingCurtain.Hide();
+      GameObject hud = m_uiFactory.CreateLevelHUD();
       
-      m_uiFactory.CreateLevelHUD();
+      var showCardsButton = hud.GetComponentInChildren<ShowCardsButton>();
+      showCardsButton.Button.interactable = false;
       
-      m_levelInput.Enabled = false;
-
-      yield return m_cardsService.FlipAllCardsToBack()
-        .ToYieldInstruction();
-      
+      m_cardsService.SetAllCardsSelectable(false);
       m_cardsService.Shuffle();
+      
+      m_loadingCurtain.Hide();
 
-      CoroutineWait waitCloseHintPopUp = new();
-      m_uiFactory.CreateWindow(WindowType.HintPopUp, waitCloseHintPopUp);
-      yield return waitCloseHintPopUp.Wait();
+      yield return ShowHintPopUp();
 
       yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
+
+      showCardsButton.Button.interactable = true;
       
-      m_levelInput.Enabled = true;
       m_enterCoroutine = null;
       
       m_gameStateChanger.Enter<LevelLoopGameState>();
+    }
+
+    private IEnumerator ShowHintPopUp()
+    {
+      CoroutineWait waitCloseHintPopUp = new();
+      m_uiFactory.CreateWindow(WindowType.HintPopUp, waitCloseHintPopUp);
+      yield return waitCloseHintPopUp.Wait();
     }
   }
 }

@@ -25,12 +25,12 @@ namespace CardMatchGame.Gameplay.UI.Controls
 
     private IEnumerator ShowCards()
     {
-      m_levelInput.Enabled = false;
+      Button.interactable = false;
       
       yield return m_cardsService.ShowCardsHint()
         .ToYieldInstruction();
       
-      m_levelInput.Enabled = true;
+      Button.interactable = true;
     }
   }
 }

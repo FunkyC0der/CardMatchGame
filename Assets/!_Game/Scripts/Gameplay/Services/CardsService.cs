@@ -40,30 +40,32 @@ namespace CardMatchGame.Gameplay.Services
     public void Shuffle()
     {
       m_cards.Shuffle();
-      ResetCardsState();
       UpdateCardsPosition();
     }
 
     public Sequence ShowCardsHint()
     {
       Card[] cardsToShow = m_cards.Where(card => !card.IsFrontSide).ToArray();
-      
+
+      SetCardsSelectable(cardsToShow, false);
+
       return FlipCards(cardsToShow, toFront: true)
         .ChainDelay(m_currentLevelData.Data.ShowCardsDuration)
-        .Chain(FlipCards(cardsToShow, toFront: false));
+        .Chain(FlipCards(cardsToShow, toFront: false))
+        .ChainCallback(() => SetCardsSelectable(cardsToShow, true));
     }
 
-    public Sequence FlipAllCardsToBack() => 
-      FlipCards(m_cards.Where(card => card.IsFrontSide).ToArray(), toFront: false);
+    public void SetAllCardsSelectable(bool selectable) => 
+      SetCardsSelectable(m_cards, selectable);
+
+    private static void SetCardsSelectable(IReadOnlyCollection<Card> cards, bool selectable)
+    {
+      foreach (Card card in cards) 
+        card.Selectable = selectable;
+    }
 
     private static Sequence FlipCards(IReadOnlyCollection<Card> cards, bool toFront) =>
       cards.GroupTweens(card => card.Animator.PlayFlipAnim(toFront));
-
-    private void ResetCardsState()
-    {
-      foreach (Card card in m_cards) 
-        card.Selectable = true;
-    }
 
     private void UpdateCardsPosition()
     {

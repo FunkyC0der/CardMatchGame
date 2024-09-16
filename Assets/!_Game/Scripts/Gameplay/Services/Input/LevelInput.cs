@@ -7,20 +7,7 @@ namespace CardMatchGame.Gameplay.Services.Input
 {
   public class LevelInput : ILevelInput, ITickable
   {
-    public event Action<bool> OnEnabledChanged;
     public event Action<Card> OnCardSelected;
-
-    private bool m_enabled;
-
-    public bool Enabled
-    {
-      get => m_enabled;
-      set
-      {
-        m_enabled = value;
-        OnEnabledChanged?.Invoke(value);
-      }
-    }
 
     public void Tick()
     {

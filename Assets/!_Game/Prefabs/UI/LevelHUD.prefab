@@ -848,7 +848,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4387845833487564751}
   - component: {fileID: 4534775805559898136}
-  - component: {fileID: 4036753957522302174}
   m_Layer: 5
   m_Name: Controls
   m_TagString: Untagged
@@ -904,22 +903,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &4036753957522302174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5691237929529751692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5a68c8727f449a6bddf44ea90176db8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Buttons:
-  - {fileID: 7467351589670086243}
-  - {fileID: 6407886290951890091}
-  - {fileID: 3149497560355595027}
 --- !u!1 &6213883435599515814
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,22 +5,18 @@ namespace CardMatchGame.Gameplay.Cards
 {
   public class CardAnimator : MonoBehaviour
   {
-    public Card Card;
-
     public TweenSettings<Vector3> FlipToFrontSideSettings;
     public ShakeSettings ShakeSettings;
     public ShakeSettings PunchSettings;
 
-    public Sequence PlayFlipToFrontAnim() =>
+    public Tween PlayFlipToFrontAnim() =>
       PlayFlipAnim(true);
 
-    public Sequence PlayFlipToBackAnim() =>
+    public Tween PlayFlipToBackAnim() =>
       PlayFlipAnim(false);
 
-    public Sequence PlayFlipAnim(bool toFront) =>
-      Sequence.Create()
-        .Chain(Tween.Rotation(transform, FlipToFrontSideSettings.WithDirection(toFront)))
-        .ChainCallback(() => Card.IsFrontSide = toFront);
+    public Tween PlayFlipAnim(bool toFront) =>
+      Tween.Rotation(transform, FlipToFrontSideSettings.WithDirection(toFront));
 
     public Tween PlayMatchSuccessAnim() =>
       Tween.PunchScale(transform, PunchSettings);

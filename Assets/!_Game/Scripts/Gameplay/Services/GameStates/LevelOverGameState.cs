@@ -30,6 +30,8 @@ namespace CardMatchGame.Gameplay.Services.GameStates
 
     public override void Enter()
     {
+      m_timer.Stop();
+      
       if (m_timer.IsFinished)
       {
         m_uiFactory.CreateWindow(WindowType.GameOverLosePopUp);

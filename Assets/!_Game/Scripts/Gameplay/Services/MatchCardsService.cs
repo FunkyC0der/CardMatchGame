@@ -4,6 +4,7 @@ using System.Linq;
 using CardMatchGame.Gameplay.Cards;
 using CardMatchGame.Gameplay.Services.Input;
 using CardMatchGame.Services.Levels;
+using PrimeTween;
 using UnityEngine;
 using Zenject;
 
@@ -29,67 +30,53 @@ namespace CardMatchGame.Gameplay.Services
       m_winConditionService = winConditionService;
     }
 
-    public void StopMatchProcess()
-    {
-      if (m_cardsToMatch.Count == 0)
-        return;
-      
-      StopAllCoroutines();
-
-      m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim());
-      m_cardsToMatch.Clear();
-    }
-
     private void SelectCard(Card card) => 
       StartCoroutine(MatchProcess(card));
 
     private IEnumerator MatchProcess(Card newCard)
     {
+      newCard.IsFrontSide = true;
       newCard.Selectable = false;
+      
       m_cardsToMatch.Add(newCard);
       
       bool allCardsMatch = m_cardsToMatch.All(card => card.Desc == m_cardsToMatch.First().Desc);
-      
-      if(!allCardsMatch)
-        yield return MatchFailProcess(newCard);
+
+      Sequence sequence = Sequence.Create()
+        .Chain(newCard.Animator.PlayFlipToFrontAnim());
+
+      if (!allCardsMatch)
+      {
+        sequence.Chain(MatchFailSequence(m_cardsToMatch.ToList()));
+        m_cardsToMatch.Clear();
+      }
       else if (m_cardsToMatch.Count == m_cardsToMatchCount)
-        yield return MatchSuccessProcess(newCard);
-      else
-        yield return newCard.Animator.PlayFlipToFrontAnim()
-          .ToYieldInstruction();
+      {
+        sequence.Chain(MatchSuccessSequence(m_cardsToMatch.ToList()));
+        m_cardsToMatch.Clear();
+      }
+
+      yield return sequence.ToYieldInstruction();
     }
 
-    private IEnumerator MatchFailProcess(Card newCard)
+    private Sequence MatchFailSequence(List<Card> cards)
     {
-      yield return PlayLongAnim(
-        newCard.Animator.PlayFlipToFrontAnim()
-          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchFailedAnim()))
-          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayFlipToBackAnim()))
-          .ToYieldInstruction());
-
-      foreach (Card card in m_cardsToMatch) 
-        card.Selectable = true;
-        
-      m_cardsToMatch.Clear();
+      return cards.GroupTweens(card => card.Animator.PlayMatchFailedAnim())
+        .Chain(cards.GroupTweens(card => card.Animator.PlayFlipToBackAnim()))
+        .ChainCallback(() =>
+        {
+          foreach (Card card in cards)
+          {
+            card.IsFrontSide = false;
+            card.Selectable = true;
+          }
+        });
     }
 
-    private IEnumerator MatchSuccessProcess(Card newCard)
+    private Sequence MatchSuccessSequence(List<Card> cards)
     {
-      yield return PlayLongAnim(
-        newCard.Animator.PlayFlipToFrontAnim()
-          .Chain(m_cardsToMatch.GroupTweens(card => card.Animator.PlayMatchSuccessAnim()))
-          .ToYieldInstruction());
-
-      m_cardsToMatch.Clear();
-
       m_winConditionService.Match();
-    }
-
-    private IEnumerator PlayLongAnim(IEnumerator anim)
-    {
-      m_levelInput.Enabled = false;
-      yield return anim;
-      m_levelInput.Enabled = true;
+      return cards.GroupTweens(card => card.Animator.PlayMatchSuccessAnim());
     }
   }
 }

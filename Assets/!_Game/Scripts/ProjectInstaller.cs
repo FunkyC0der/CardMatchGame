@@ -43,7 +43,7 @@ namespace CardMatchGame
 
     private void BindGameStateMachine()
     {
-      Container.Bind<GameStateMachine>()
+      Container.BindInterfacesAndSelfTo<GameStateMachine>()
         .AsSingle();
 
       Container.Bind<GameStateFactory>()
