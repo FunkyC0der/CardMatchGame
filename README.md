@@ -3,7 +3,7 @@
 In this project, I used a DI container (Zenject) and a service-oriented model. I wrote the code following the KISS principle and, in my opinion, the most important SOLID principle: Single Responsibility. Additionally, I implemented a single entry point approach.
 
 ## Single entry point
-I used the multiple scene feature to implement this. The game must be launched from the Boot scene, which contains its own `BootInstaller` and a small `BootService`. This service handles game save loading and then uses the `SceneLoader` service to load the first scene. The `SceneLoader` loads either the MainMenu or GameLevel scene using `LoadSceneMode.Additive`. 
+The game must be launched from the Boot scene. In `ProjectInstaller` I bind `BootService`, it transitions into the initial game state, `BootGameState`. It handles all the necessary logic to set up the game and then loads either the `MainMenu` or `GameLevel` scene.
 
 Additionally, I created a tool editor class called `BootSceneAutoLoader`, which automatically loads the Boot scene if any other scene is opened.
 
@@ -11,8 +11,20 @@ Additionally, I created a tool editor class called `BootSceneAutoLoader`, which 
 The project is organized using Zenject installers:
 
 * `ProjectInstaller` - Manages all project-wide services.
-* `BootInstaller` - Manages the Boot scene dependencies.
 * `LevelInstaller` - Manages the GameLevel scene and contains all gameplay-related services.
+
+## Game States
+To control the game, I use a Game State Machine. I want my state machine to work with game states declared not only in the project context but also in the scene context. To achieve this, I created two helper classes—`GameStateFactory` and `GameStateChanger` — using the Zenject attribute `CopyIntoAllSubContainers`, ensuring they use the correct `DiContainer`.
+
+Project-wide states (ProjectInstaller):
+* `BootGameState` – Sets up the game during boot.
+* `LoadLevelGameState` – Prepares the game for the GameLevel and loads it.
+* `MainMenuGameState` – Loads and displays the main menu.
+
+Level/Gameplay states (LevelInstaller):
+* `LevelStartGameState` – Sets up the level at the beginning.
+* `LevelLoopGameState` – Waits for the level to end (either when the timer finishes or a win condition is met).
+* `LevelOverGameState` – Stops gameplay, updates progress data, and shows the game over popup.
 
 ## Game Notes
 * The game features a list of levels that can be opened from the Main Menu.
@@ -21,7 +33,6 @@ The project is organized using Zenject installers:
 * The `SettingsService`, with a placeholder `SettingsData`, demonstrates how to manage game settings and integrate with the saving system.
 
 ## Gameplay Level Notes
-* Levels are controlled by the `LevelProgress` service.
 * Levels are configured using the `LevelsData` ScriptableObject, allowing you to set:
   * Grid size
   * Timer duration
@@ -32,8 +43,11 @@ The project is organized using Zenject installers:
 * A game-over pop-up appears at the end of each level.
 * I used the PrimeTween plugin to animate various elements and ensure code execution in the correct order.
 
+## Services Notes
+* `IAssetsService` – Loads and provides assets (e.g., `LevelsData` and UI data) for the game.
+* `UIFactory` – Creates UI elements and windows on demand, and injects dependencies into them using `DiContainer`.
+* `GameQuitSaver` – Saves the game upon quitting.
+
 ## Future improvements
-* `BootService` can load saves asynchronously - **DONE**
-* Add a loading curtain at game start and during scene transitions - **DONE**
 * Add a specialized window service to manage more complex menus with multiple windows, allowing navigation back and forth using a stack of opened windows.
-* Create a new implementation of `ILevelInput` to support touch controls, or integrate the New Input System.
+* Add real working settings.
