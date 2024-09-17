@@ -1,7 +1,8 @@
+using CardMatchGame.Services;
 using CardMatchGame.Services.Scenes;
 using CardMatchGame.Services.UI;
 
-namespace CardMatchGame.Services.GameStates.States
+namespace CardMatchGame.GameStates.States
 {
   public class MainMenuGameState : GameState
   {
@@ -19,10 +20,10 @@ namespace CardMatchGame.Services.GameStates.States
     public override void Enter()
     {
       m_loadingCurtain.Show();
-      m_sceneLoader.LoadScene(SceneNames.MainMenu, ShowMaineMenu);
+      m_sceneLoader.LoadScene(SceneNames.MainMenu, ShowMainMenu);
     }
 
-    private void ShowMaineMenu()
+    private void ShowMainMenu()
     {
       m_loadingCurtain.Hide();
       m_uiFactory.CreateWindow(WindowType.MainMenu);

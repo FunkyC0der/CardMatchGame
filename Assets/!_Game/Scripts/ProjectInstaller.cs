@@ -1,8 +1,8 @@
+using CardMatchGame.GameStates;
+using CardMatchGame.GameStates.States;
 using CardMatchGame.Services;
 using CardMatchGame.Services.Assets;
 using CardMatchGame.Services.Coroutines;
-using CardMatchGame.Services.GameStates;
-using CardMatchGame.Services.GameStates.States;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;

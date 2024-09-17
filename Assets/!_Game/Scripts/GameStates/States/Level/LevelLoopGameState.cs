@@ -1,6 +1,6 @@
-using CardMatchGame.Services.GameStates;
+using CardMatchGame.Gameplay.Services;
 
-namespace CardMatchGame.Gameplay.Services.GameStates
+namespace CardMatchGame.GameStates.States.Level
 {
   public class LevelLoopGameState : GameState
   {

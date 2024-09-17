@@ -1,13 +1,13 @@
 using System.Collections;
+using CardMatchGame.Gameplay.Services;
 using CardMatchGame.Gameplay.UI.Controls;
 using CardMatchGame.Services;
 using CardMatchGame.Services.Coroutines;
-using CardMatchGame.Services.GameStates;
 using CardMatchGame.Services.UI;
 using CardMatchGame.Utils;
 using UnityEngine;
 
-namespace CardMatchGame.Gameplay.Services.GameStates
+namespace CardMatchGame.GameStates.States.Level
 {
   public class LevelStartGameState : GameState
   {

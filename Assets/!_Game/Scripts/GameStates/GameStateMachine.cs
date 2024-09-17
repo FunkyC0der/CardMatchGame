@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace CardMatchGame.Services.GameStates
+namespace CardMatchGame.GameStates
 {
   public class GameStateMachine : ITickable
   {

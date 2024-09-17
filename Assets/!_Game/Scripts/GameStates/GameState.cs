@@ -1,4 +1,4 @@
-namespace CardMatchGame.Services.GameStates
+namespace CardMatchGame.GameStates
 {
   public class GameState
   {

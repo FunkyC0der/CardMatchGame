@@ -1,5 +1,5 @@
-using CardMatchGame.Services.GameStates;
-using CardMatchGame.Services.GameStates.States;
+using CardMatchGame.GameStates;
+using CardMatchGame.GameStates.States;
 using CardMatchGame.Services.Levels;
 using UnityEngine;
 using UnityEngine.UI;

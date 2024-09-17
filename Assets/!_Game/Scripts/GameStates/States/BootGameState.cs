@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CardMatchGame.Services;
 using CardMatchGame.Services.Assets;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
@@ -7,7 +8,7 @@ using CardMatchGame.Services.Scenes;
 using CardMatchGame.Services.Settings;
 using UnityEngine;
 
-namespace CardMatchGame.Services.GameStates.States
+namespace CardMatchGame.GameStates.States
 {
   public class BootGameState : GameState
   {

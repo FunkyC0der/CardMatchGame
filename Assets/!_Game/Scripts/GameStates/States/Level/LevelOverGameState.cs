@@ -1,11 +1,11 @@
+using CardMatchGame.Gameplay.Services;
 using CardMatchGame.Gameplay.Utils;
-using CardMatchGame.Services.GameStates;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Progress;
 using CardMatchGame.Services.SaveLoad;
 using CardMatchGame.Services.UI;
 
-namespace CardMatchGame.Gameplay.Services.GameStates
+namespace CardMatchGame.GameStates.States.Level
 {
   public class LevelOverGameState : GameState
   {

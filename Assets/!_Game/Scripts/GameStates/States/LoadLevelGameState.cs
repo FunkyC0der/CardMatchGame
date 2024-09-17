@@ -1,8 +1,9 @@
+using CardMatchGame.Services;
 using CardMatchGame.Services.Levels;
 using CardMatchGame.Services.Scenes;
 using CardMatchGame.Utils;
 
-namespace CardMatchGame.Services.GameStates.States
+namespace CardMatchGame.GameStates.States
 {
   public class LoadLevelGameState : GameState, IPayloaded<int>
   {

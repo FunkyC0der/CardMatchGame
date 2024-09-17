@@ -1,6 +1,6 @@
 using CardMatchGame.Gameplay.Services;
-using CardMatchGame.Gameplay.Services.GameStates;
 using CardMatchGame.Gameplay.Services.Input;
+using CardMatchGame.GameStates.States.Level;
 using Zenject;
 
 namespace CardMatchGame.Gameplay

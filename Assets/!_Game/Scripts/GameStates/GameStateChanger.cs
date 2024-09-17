@@ -1,6 +1,6 @@
 using CardMatchGame.Utils;
 
-namespace CardMatchGame.Services.GameStates
+namespace CardMatchGame.GameStates
 {
   public class GameStateChanger
   {

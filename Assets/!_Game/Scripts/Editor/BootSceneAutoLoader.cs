@@ -1,4 +1,4 @@
-using CardMatchGame.Services.GameStates.States;
+using CardMatchGame.GameStates.States;
 using CardMatchGame.Services.Scenes;
 using UnityEditor;
 using UnityEditor.SceneManagement;
